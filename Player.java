@@ -18,6 +18,14 @@ public class Player {
     public ArrayList<Card> getHand(){
         return hand;
     }
+    // show players hand in the console
+    public void showHand(){
+        System.out.println("\n" + name + "'s hand:");
+        for(int i =0; i< hand.size(); i++){
+            System.out.println((i + 1) + "." + hand.get(i));
+        }
+    }
+
 
     public void drawCard(){
         //the pile to be infinite
@@ -28,18 +36,52 @@ public class Player {
 
     }
 
-    // show players hand
+    //choosing the card to play
+    public boolean playCard(int index, Card topCard, ArrayList<Card> discardPile){
 
-    //chosing the card to play
+        /**
+         * checks that the player chose a valid card from their hand.
+         * checks wheter that card can be legally played making sure colour/type matches
+         * removes the played card from their hand
+         * returns true/false depending on if they were able to play
+         * @param index which card from the players hand example card 2
+         * @param topCard the current top card on the discard pile
+         * @param discardPile the list of all cards that have been played
+         */
+        if(index < 0 || index >= hand.size()){
+            System.out.println(("invalid card number"));
+            return false;
+        }
+        Card cardChosen = hand.get(index);
+
+        if(cardChosen.playCardOnAnother(topCard)){
+            hand.remove(index);
+            discardPile.add(cardChosen);
+            System.out.println(name + " played " + cardChosen);
+            return true;
+        }
+        else{
+            System.out.println("you can't play this card");
+            return  false;
+        }
+
+    }
 
 
     //if the player has one card left say uno if they have no cards left they win
+    public boolean hasOneCard(){
+        if(hand.size() == 1){
+            return true;
+        }
+        return false;
+    }
 
-
-
-
-
-
+    public boolean hasZeroCard(){
+        if(hand.isEmpty()){
+            return true;
+        }
+        return false;
+    }
 
 
 }
