@@ -84,8 +84,11 @@ public class Player {
         return false;
     }
 
-    public void setPlayerTurn() {
+    public void setPlayerTurnTrue() {
         playerTurn = true;
+    }
+    public void setPlayerTurnFalse() {
+        playerTurn = false;
     }
 
     public boolean getPlayerTurnStatus(){

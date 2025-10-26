@@ -1,14 +1,14 @@
 import java.util.*;
 
 public class GameLogic{
-    private ArrayList<Player> players;
+    private LinkedList<Player> players;
     private ArrayList<Card> cards;
-    private ArrayList<Card> hand;
-    private ArrayList<Card> discardPile;
+    private LinkedList<Card> discardPile;
     private ArrayList<Card> drawPile;
     private ArrayList<Card> flipPile;
     private boolean direction; //clockwise or counterclockwise
     private int score;
+    private static final int SEVEN = 7;
 
 
     public GameLogic(ArrayList<String> playerNames) {
@@ -23,8 +23,7 @@ public class GameLogic{
 
         }
 
-        hand = new ArrayList<>();
-        discardPile = new ArrayList<>();
+        discardPile = new LinkedList<>();
 
         flipPile = new ArrayList<>();
 
@@ -46,21 +45,25 @@ public class GameLogic{
                 break;
             }
             else {
-                for (Card card : drawPile){
+                for (int i = 0; i < SEVEN; i++){
                     if (player.getHand().size() == 7){
                         break;
                     }
                     else {
-                        player.getHand().add(card);
-                        for (int i = discardPile.size()-1; i >= 0; i--){
-                            discardPile.add(card);
-                        }
-                        drawPile.remove(card);
+                        player.getHand().add(drawPile.get(0));
+                        drawPile.remove(drawPile.get(0));
                     }
             }
 
             }
         }
+        discardPile.addFirst(drawPile.get(0));
+        drawPile.remove(0);
+
+    }
+
+    private Card showTopCard(){
+        return discardPile.get(0);
     }
 
     private void addCardToPlayerHand(){
@@ -75,7 +78,6 @@ public class GameLogic{
         //checking the players turn status
         for (Player player : players){
             if (player.getPlayerTurnStatus() == true){
-                dealCardsBeginning();
 
             }
             else {
@@ -87,6 +89,15 @@ public class GameLogic{
     }
 
     public void startGame(){
+        //starting round
+        dealCardsBeginning();
+        for (int i = 0; i < players.size(); i++){
+            players.get(0).setPlayerTurnTrue();
+        }
+
+        }
+
+
 
     }
 
