@@ -1,17 +1,16 @@
-import  java.util.*;
-
 public class PlayerOrder {
     private playerNode firstPlayer;
     private playerNode lastPlayer;
     private int numPlayers;
+    private playerNode currentPlayer;
 
     private class playerNode {
-        private String pName;
+        private Player pName;
         private playerNode prev;
         private playerNode next;
 
         public playerNode(Player p) {
-            this.pName = p.getName();
+            this.pName = p;
             this.prev = null;
             this.next = null;
 
@@ -35,29 +34,22 @@ public class PlayerOrder {
         if (firstPlayer == null) {
 
             firstPlayer = tempPlayerNode;
-            firstPlayer.next = tempPlayerNode;
+            firstPlayer.next = firstPlayer;
             firstPlayer.prev = firstPlayer;
 
-            lastPlayer = tempPlayerNode;
-            lastPlayer.next = tempPlayerNode;
-            lastPlayer.prev = lastPlayer;
-
-        } else if (firstPlayer == lastPlayer) {
-            firstPlayer.next = tempPlayerNode;
-            lastPlayer = tempPlayerNode;
+            lastPlayer = firstPlayer;
             lastPlayer.next = firstPlayer;
-            lastPlayer.prev = firstPlayer.next;
-            firstPlayer.prev = lastPlayer.next;
-
-        } else if (firstPlayer != lastPlayer) {
+            lastPlayer.prev = lastPlayer;
+        }
+        else {
 
             lastPlayer.next = tempPlayerNode;
             tempPlayerNode.prev = lastPlayer;
-            lastPlayer = tempPlayerNode;
             tempPlayerNode.next = firstPlayer;
             firstPlayer.prev = tempPlayerNode;
-
+            lastPlayer = tempPlayerNode;
         }
+        numPlayers++;
     }
 
     //traversing forward the doubly linked list
@@ -66,6 +58,7 @@ public class PlayerOrder {
         while (currentPlayer != null) {
             System.out.println("Its "+ currentPlayer.pName + "'s turn!");
             currentPlayer = currentPlayer.next;
+
         }
     }
 
@@ -76,5 +69,22 @@ public class PlayerOrder {
             currentPlayer = currentPlayer.prev;
         }
 
+    }
+
+    public void getAllPlayers() {
+        playerNode currentPlayer = firstPlayer;
+        if (currentPlayer != null) {
+            while (currentPlayer != null) {
+                currentPlayer = currentPlayer.next;
+            }
+        }
+    }
+
+    public int getTotalNumPlayers(){
+        return numPlayers;
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer.pName;
     }
 }

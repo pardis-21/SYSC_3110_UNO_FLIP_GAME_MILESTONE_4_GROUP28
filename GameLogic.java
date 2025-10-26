@@ -1,7 +1,8 @@
 import java.util.*;
 
+
 public class GameLogic{
-    private LinkedList<Player> players;
+    private PlayerOrder playerOrder;
     private ArrayList<Card> cards;
     private LinkedList<Card> discardPile;
     private ArrayList<Card> drawPile;
@@ -14,10 +15,14 @@ public class GameLogic{
     public GameLogic(ArrayList<String> playerNames) {
 
         //creating an arrayList of players
-        players = new LinkedList<>();
 
+        playerOrder = new PlayerOrder();
 
         //adding players to doublylinkedlist
+        for (int i = 0; i < playerNames.size(); i++){
+            Player player = new Player(playerNames.get(i));
+            playerOrder.addPlayer(player);
+        }
 
 
 
@@ -27,7 +32,7 @@ public class GameLogic{
 
         //populating the cards with a card to make a deck (108 cards)
         drawPile = new ArrayList<>();
-        for (int i = 0; i <= 108; i++){
+        for (int i = 0; i < 108; i++){
             drawPile.add( new Card());
         }
 
@@ -38,7 +43,7 @@ public class GameLogic{
 
     //at the beginning of the game, each player is dealt 7 cards
     private void dealCardsBeginning(){
-        for (Player player : players) {
+        for (Player player : playerOrder.getAllPlayers()) {
             if (player.getHand().size() == 7){
                 break;
             }
@@ -65,37 +70,30 @@ public class GameLogic{
     }
 
     private void addCardToPlayerHand(){
-        for (Player player : players){
+        for (Player player : playerOrder.getAllPlayers()){
             player.drawCard();
         }
 
 
     }
 
-    public void playerTurn(){
+    public void playerTurn() {
         //checking the players turn status
-        for (Player player : players){
-            if (player.getPlayerTurnStatus() == true){
+        Player currentPlayer = playerOrder.getCurrentPlayer();
+        System.out.println("It's " +  currentPlayer.getName() + "'s turn");
 
-            }
-            else {
-
-
-            }
-
+        if (direction == true) {
+            playerOrder.nextPlayerClockwise();
+        }
+        else {
+            playerOrder.nextPlayerCounterClockwise();
         }
     }
 
-    public void startGame(){
+    public void startGame() {
         //starting round
-        dealCardsBeginning();
-        for (int i = 0; i < players.size(); i++){
-            players.get(0).setPlayerTurnTrue();
-        }
-
-        }
-
-
+        System.out.println("Top Card: " + showTopCard());
+        System.out.println("Player: " + playerOrder.getCurrentPlayer().getName() + "'s turn");
 
     }
 
