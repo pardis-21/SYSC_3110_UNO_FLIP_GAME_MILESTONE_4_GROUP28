@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class PlayerOrder {
     private playerNode firstPlayer;
     private playerNode lastPlayer;
@@ -21,11 +23,11 @@ public class PlayerOrder {
         this.firstPlayer = null;
         this.lastPlayer = null;
         this.numPlayers = 0;
+        this.currentPlayer = null;
     }
     public boolean isEmpty() {
         return numPlayers == 0;
     }
-
 
     //adding players to the linkedList
     public void addPlayer(Player p) {
@@ -40,6 +42,8 @@ public class PlayerOrder {
             lastPlayer = firstPlayer;
             lastPlayer.next = firstPlayer;
             lastPlayer.prev = lastPlayer;
+
+            currentPlayer = firstPlayer;
         }
         else {
 
@@ -48,36 +52,41 @@ public class PlayerOrder {
             tempPlayerNode.next = firstPlayer;
             firstPlayer.prev = tempPlayerNode;
             lastPlayer = tempPlayerNode;
+
         }
         numPlayers++;
     }
 
     //traversing forward the doubly linked list
     public void nextPlayerClockwise(){
-        playerNode currentPlayer = firstPlayer;
-        while (currentPlayer != null) {
-            System.out.println("Its "+ currentPlayer.pName + "'s turn!");
+        if (currentPlayer != null) {
+            //System.out.println("It's "+ currentPlayer.pName + "'s turn!");
             currentPlayer = currentPlayer.next;
 
         }
     }
 
     public void nextPlayerCounterClockwise(){
-        playerNode currentPlayer = lastPlayer;
-        while (currentPlayer != null) {
-            System.out.println("Its "+ currentPlayer.pName + "'s turn!");
+        if (currentPlayer != null) {
+            //System.out.println("Its "+ currentPlayer.pName + "'s turn!");
             currentPlayer = currentPlayer.prev;
         }
 
     }
 
-    public void getAllPlayers() {
-        playerNode currentPlayer = firstPlayer;
-        if (currentPlayer != null) {
-            while (currentPlayer != null) {
-                currentPlayer = currentPlayer.next;
-            }
+    public ArrayList<Player> getAllPlayersToArrayList() {
+        ArrayList<Player> allPlayers = new ArrayList<>();
+
+        playerNode arrayPlayer = firstPlayer;
+        if (arrayPlayer == null) {
+            return allPlayers;
+
         }
+        for (int i = 0; i < numPlayers; i++){
+            allPlayers.add(arrayPlayer.pName);
+            arrayPlayer = arrayPlayer.next;
+        }
+        return allPlayers;
     }
 
     public int getTotalNumPlayers(){
@@ -85,6 +94,16 @@ public class PlayerOrder {
     }
 
     public Player getCurrentPlayer() {
-        return currentPlayer.pName;
+       if (currentPlayer == null){
+           return null;
+       }
+       else {
+           return currentPlayer.pName;
+       }
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }

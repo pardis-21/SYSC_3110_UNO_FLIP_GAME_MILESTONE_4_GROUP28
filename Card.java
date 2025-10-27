@@ -60,4 +60,9 @@ public class Card {
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return cardColour.toString() + " " + cardType.toString();
+    }
 }

@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.Scanner;
 
 
 public class GameLogic{
@@ -43,7 +44,7 @@ public class GameLogic{
 
     //at the beginning of the game, each player is dealt 7 cards
     private void dealCardsBeginning(){
-        for (Player player : playerOrder.getAllPlayers()) {
+        for (Player player : playerOrder.getAllPlayersToArrayList()) {
             if (player.getHand().size() == 7){
                 break;
             }
@@ -69,8 +70,14 @@ public class GameLogic{
         return discardPile.get(0);
     }
 
+    private void playerNames(){
+        for (Player player : playerOrder.getAllPlayersToArrayList()){
+            System.out.println(player.getName());
+        }
+    }
+
     private void addCardToPlayerHand(){
-        for (Player player : playerOrder.getAllPlayers()){
+        for (Player player : playerOrder.getAllPlayersToArrayList()){
             player.drawCard();
         }
 
@@ -92,8 +99,40 @@ public class GameLogic{
 
     public void startGame() {
         //starting round
+        dealCardsBeginning();
+        System.out.println("");
         System.out.println("Top Card: " + showTopCard());
+        System.out.println("");
         System.out.println("Player: " + playerOrder.getCurrentPlayer().getName() + "'s turn");
+
+    }
+
+    public void confirmPlayerAtScreen(){
+        Scanner userInput= new Scanner(System.in);
+
+        Boolean flag = true;
+        while (flag) {
+            System.out.println("Is player: " + playerOrder.getCurrentPlayer().getName() + " at the screen?");
+            String userChoice = userInput.nextLine();
+
+            if (userChoice.equalsIgnoreCase("yes") || userChoice.equalsIgnoreCase("y")) {
+                playerTurn();
+                flag = false;
+            }
+            else if (userChoice.equalsIgnoreCase("no") || userChoice.equalsIgnoreCase("n")) {
+                System.out.println("Pass the computer");
+                //playerTurn();
+
+
+            }
+            else {
+                System.out.println("Enter Yes or No");
+            }
+
+        }
+    }
+
+    public void playGame() {
 
     }
 
