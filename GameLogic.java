@@ -7,6 +7,7 @@ public class GameLogic{
     private ArrayList<Card> cards;
     private final ArrayList<Card> discardPile;
     private final ArrayList<Card> drawPile;
+    private boolean roundEnded = false;
     //private ArrayList<Card> flipPile; for future use
     private boolean direction; //clockwise or counterclockwise
     private final Map<Player, Integer> scores = new HashMap<>();
@@ -244,6 +245,7 @@ public class GameLogic{
 
                         if(playerOrder.getCurrentPlayer().getHand().isEmpty()){
                             awardRoundPointsTo(playerOrder.getCurrentPlayer());
+                            return;
                         }
 
                         playerTurn();
@@ -275,6 +277,7 @@ public class GameLogic{
         }
         scores.put(winner, scores.getOrDefault(winner, 0) + pointsgained);
         System.out.println(winner.getName() + " earns " + pointsgained + " points! Total = " + scores.get(winner));
+        roundEnded = true;
         return;
 
     }
@@ -305,17 +308,14 @@ public class GameLogic{
         }
     }
     public void playUNOGame(){
-
-
-        boolean flag = true;
-
+        roundEnded = false;
         startGame();
-        while(flag){
+        while(!roundEnded){
             confirmPlayerAtScreen();
             System.out.println("Top card: " + getTopCard() + "\n");
-            playGame();
-    }
+            playGame(); // this will set roundEnded = true when someone goes out
         }
+    }
 
 
 }
