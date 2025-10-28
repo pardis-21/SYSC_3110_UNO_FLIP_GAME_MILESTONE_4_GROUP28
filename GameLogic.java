@@ -6,8 +6,8 @@ import java.util.Scanner;
  * It controls player turns, card drawing, discarding, special card effects,
  * and scoring between multiple players.
  * @Author Charis Nobossi 101297742
- * @Author Pardis Ehsani
- * @Author Anvita Ala
+ * @Author Pardis Ehsani 101300400
+ * @Author Anvita Ala 101301514
  * @Author Pulcherie Mbaye 101302394
  */
 public class GameLogic{
