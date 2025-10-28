@@ -94,6 +94,7 @@ public class GameLogic{
 
     public void confirmPlayerAtScreen(){
         Scanner userInput= new Scanner(System.in);
+
         System.out.println("Player: " + playerOrder.getCurrentPlayer().getName() + "'s turn\n");
         Boolean flag = true;
         while (flag) {
@@ -135,7 +136,8 @@ public class GameLogic{
                 //if the player wants to draw a card
                 if (choice == 0) {
                     playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
-                    System.out.println(playerOrder.getCurrentPlayer().getName() + " has drawn the following card: " + drawPile.get(0).getCardColour() + " " + drawPile.get(0).getCardType());
+                    System.out.println(playerOrder.getCurrentPlayer().getName() + " has drawn a card");
+
                     drawPile.remove(0);
                     playerTurn();
                     flag = false;
@@ -213,12 +215,11 @@ public class GameLogic{
 
                             playerTurn();
                             playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
-                            System.out.println(playerOrder.getCurrentPlayer().getName() + " has drawn the following card: " + drawPile.get(0).getCardColour() + " " + drawPile.get(0).getCardType());
                             drawPile.remove(0);
-
                             playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
-                            System.out.println(playerOrder.getCurrentPlayer().getName() + " has drawn the following card: " + drawPile.get(0).getCardColour() + " " + drawPile.get(0).getCardType());
                             drawPile.remove(0);
+                            System.out.println(playerOrder.getCurrentPlayer().getName() + " has drawn 2 cards.");
+
 
 
                         }
@@ -229,7 +230,7 @@ public class GameLogic{
 
                             playerTurn();
                             playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
-                            System.out.println(playerOrder.getCurrentPlayer().getName() + " has drawn the following card: " + drawPile.get(0).getCardColour() + " " + drawPile.get(0).getCardType());
+                            System.out.println(playerOrder.getCurrentPlayer().getName() + " has drawn a card.");
                             drawPile.remove(0);
 
 
