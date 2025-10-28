@@ -279,6 +279,15 @@ public class GameLogic{
         System.out.println(winner.getName() + " earns " + pointsgained + " points! Total = " + scores.get(winner));
     }
 
+    public Player getMatchWinner(int target) {
+        for (Player p : playerOrder.getAllPlayersToArrayList()) {
+            if (scores.get(p) >= target) {
+                return p;
+            }
+        }
+        return null;
+    }
+
     public void playerTurn() {
         //checking the players turn status
         if (direction) {

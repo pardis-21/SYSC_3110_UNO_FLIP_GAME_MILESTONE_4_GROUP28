@@ -50,9 +50,34 @@ public class Game {
             }
 
             //start game
-            GameLogic gameLogic = new GameLogic(players);
-            gameLogic.setPlayerOrder(playerOrder);
-            gameLogic.playUNOGame();
+
+            GameLogic gameLogic;
+            final int TARGET = 500;
+
+            while (true) {
+                // create a new game for each round
+                gameLogic = new GameLogic(players);
+                gameLogic.setPlayerOrder(playerOrder);
+
+                // play one round
+                gameLogic.playUNOGame();
+
+                // check if someone reached 500
+                Player matchWinner = gameLogic.getMatchWinner(TARGET);
+
+                if (matchWinner != null) {
+                    System.out.println("🏆 " + matchWinner.getName() + " reached " + TARGET + " points!");
+                    System.out.println("GAME OVER!");
+                    break; // stop entire match
+                }
+
+                // otherwise, let user start new round
+                Scanner in = new Scanner(System.in);
+                System.out.println("No winner yet. Type 'NEW' to start a new round");
+                while (!in.nextLine().trim().equalsIgnoreCase("NEW")) {
+                    System.out.println("Type 'NEW' to start a new round");
+                }
+            }
 
 
 
