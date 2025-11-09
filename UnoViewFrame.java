@@ -29,14 +29,15 @@ public class UnoViewFrame extends JFrame {
     public UnoViewFrame(UnoController controller){
        this.controller = controller;
 
-       private
+       model = new GameLogicModel();
 
         while (true) {
             String userInput = JOptionPane.showInputDialog(null, "Enter the number of Players (2–4): ");
-            model.playerOrder = Integer.parseInt(userInput);
+            model.playersOrder = Integer.parseInt(userInput);
+            int numPlayers = model.getTotalNumberOfPlayers();
 
             try {
-                if (model.numPlayers < 2 || model.numPlayers > 4) {
+                if (numPlayers < 2 || numPlayers > 4) {
                     JOptionPane.showMessageDialog(null, "Invalid number of players! Please enter 2–4.");
                 } else
                     break;
@@ -164,7 +165,7 @@ public class UnoViewFrame extends JFrame {
         cardPanel.repaint();
 
         //GET THE CURRENT PLAYER FROM THE PLAYERORDER CLASS
-        Player currentPlayer = game.playerOrder.getCurrentPlayer();
+        Player currentPlayer = model.getCurrentPlayer();
 
         //DEBUGGING PURPOSES CAN DELETE LATER ENSURING THAT THE CORRECT PLAYER HAND IS SHOWN
         System.out.println("SHOWING CARDS FOR: " + currentPlayer.showHand());

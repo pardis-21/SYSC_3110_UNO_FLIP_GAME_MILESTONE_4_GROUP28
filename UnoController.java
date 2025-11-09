@@ -57,10 +57,11 @@ public class UnoController implements ActionListener {
 
     }
 
-    @Override
-    public void updateView)_{
-    List<Card> hand;
-        hand = PlayerOrder.getCurrentPlayer().getHand();
+    public void updateView() {
+    PlayerOrder playerOrder = new PlayerOrder();
+    List<Card> hand = model.getPlayerHand();
+    viewFrame.updateHand(hand);
+        viewFrame.updateTopCard(model.getTopCard());
 
     }
 }

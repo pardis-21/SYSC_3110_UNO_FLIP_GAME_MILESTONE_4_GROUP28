@@ -372,6 +372,26 @@ public class GameLogicModel {
             scores.putIfAbsent(p, 0);
         }
     }
+    /**
+    * Gets the player order
+     */
+    public Player getCurrentPlayer(){
+        return playerOrder.getCurrentPlayer();
+    }
+
+    /**
+     * Gets the player hand
+     */
+    public ArrayList<Card> getPlayerHand(){
+        return getCurrentPlayer().getHand();
+    }
+    /**
+     * Gets the total number of players
+     */
+    public int getTotalNumberOfPlayers(){
+        return playerOrder.getAllPlayersToArrayList().size();
+    }
+
 
     /**
      * Runs a full UNO game session, starting rounds and continuing until
