@@ -7,7 +7,11 @@ public class UnoController implements ActionListener {
     UnoFrame frame;
 
     public UnoController(){
+
         frame = new UnoFrame();
+        frame.newCard.addActionListener(this);
+       // frame.UNOButton.addActionListener(this);
+        frame.discardPile.addActionListener(this);
     }
 
 
@@ -20,7 +24,12 @@ public class UnoController implements ActionListener {
             source = (JButton)source;
         }
         if(source == frame.newCard){
+            JOptionPane.showMessageDialog(frame, "new card drawn");
+            // IMPLEMENT ACTIONS
 
+        }
+        else if (source == frame.discardPile){
+            JOptionPane.showMessageDialog(frame,"top card");
         }
 
 

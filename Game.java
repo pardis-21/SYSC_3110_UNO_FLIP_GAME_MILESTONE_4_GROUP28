@@ -56,26 +56,28 @@ public class Game {
 //        }
 
 
-        // initialize GameLogic ONCE, so scores persist
-        GameLogic gameLogic = new GameLogic(players);
-        gameLogic.setPlayerOrder(playerOrder);
-        final int TARGET = 500;
+        //I HAD TO COMMENT OUT FOR GUI TO SHOW
 
-        // play multiple rounds until someone wins the match
-        while (true) {
-            System.out.println("\n===== STARTING NEW ROUND =====\n");
-            gameLogic.playUNOGame();
-
-            Player matchWinner = gameLogic.getMatchWinner(TARGET);
-            if (matchWinner != null) {
-                System.out.println(matchWinner.getName() + " reached " + TARGET + " points!");
-                System.out.println("GAME OVER!");
-                break;
-            }
-
-            System.out.println("No one has reached " + TARGET + " points yet. Press ENTER to start a new round.");
-            userInput.nextLine();
-        }
+//        // initialize GameLogic ONCE, so scores persist
+//        GameLogic gameLogic = new GameLogic(players);
+//        gameLogic.setPlayerOrder(playerOrder);
+//        final int TARGET = 500;
+//
+//        // play multiple rounds until someone wins the match
+//        while (true) {
+//            System.out.println("\n===== STARTING NEW ROUND =====\n");
+//            gameLogic.playUNOGame();
+//
+//            Player matchWinner = gameLogic.getMatchWinner(TARGET);
+//            if (matchWinner != null) {
+//                System.out.println(matchWinner.getName() + " reached " + TARGET + " points!");
+//                System.out.println("GAME OVER!");
+//                break;
+//            }
+//
+//            System.out.println("No one has reached " + TARGET + " points yet. Press ENTER to start a new round.");
+//            userInput.nextLine();
+//        }
 
     }
 
