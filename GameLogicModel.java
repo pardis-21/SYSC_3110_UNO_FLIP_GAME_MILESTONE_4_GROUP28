@@ -22,6 +22,7 @@ public class GameLogicModel {
     private final Map<Player, Integer> scores = new HashMap<>();
     private static final int SEVEN = 7;
     private boolean turnCompleted = false;
+    int numPlayers = 0;
 
 
     //NEW GUI COMPONENTS ADDED
@@ -407,7 +408,6 @@ public class GameLogicModel {
 
     public void initializePlayers(){
       //  int players = Integer.parseInt(userInput);
-        int numPlayers = getTotalNumberOfPlayers();
         while (true) {
 
             try {
