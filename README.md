@@ -14,6 +14,7 @@ UML and Sequence Diagrams represent the system's structure and interactions betw
 Unit tests for all classes and methods in the game.
 
 Team contribution:
+
 Pulcherie Mbaye:
 Contributed to the implementation of GameLogicModel, UnoController and UnoViewFrame.
 Implemented the test cases.
@@ -27,7 +28,7 @@ Charis Nobossi:
 Contributed to the implementation of GameLogicModel, UnoController and UnoViewFrame.
 
 Pardis Ehsani:
-Contributed to the implementation of GameLogicModel, UnoController and UnoViewFrame.
+Contributed to the implementation of GameLogicModel, UnoController and UnoViewFrame, PlayerCardButtons and database explanations. 
 Contributed to the UML class diagram.
 
 TO BE IMPLEMENTED
