@@ -171,7 +171,8 @@ public class GameLogicModel {
      * Handles the gameplay for a single player's turn, including:
      * - Drawing a card
      * - Playing a valid card
-     * - Applying special card effects
+     * - Applying special card effects2
+     *
      * - Checking for round completion
      */
 
@@ -188,7 +189,7 @@ public class GameLogicModel {
         } else if (card.getCardType().equals(Card.Type.SKIP)) {
             playerOrder.getCurrentPlayer().getHand().remove(card);
             playerTurn(); // skip this player
-            JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + "has been skipped!");
+            JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has been skipped!");
 
             playerTurn();
 
@@ -200,6 +201,9 @@ public class GameLogicModel {
             playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
             drawPile.remove(0);
 
+            JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 2 cards and been skipped!");
+
+            playerTurn();
 
         } else if (card.getCardType().equals(Card.Type.DRAW_ONE)) {
             playerOrder.getCurrentPlayer().getHand().remove(card);
@@ -207,6 +211,7 @@ public class GameLogicModel {
             playerTurn();
             playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
             drawPile.remove(0);
+            JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 1 card and been skipped!");
 
             playerTurn();
 

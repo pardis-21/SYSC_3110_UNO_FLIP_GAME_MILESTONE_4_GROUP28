@@ -10,6 +10,8 @@ import java.util.ArrayList;
 public class Player {
     private final String name;
     private final ArrayList<Card> hand; //cards currently in the players hand
+    public boolean UNOClicked = false; //has uno been clicked when there's 1 card left
+
 
     /**
      * Constructs a new Player with the specified name and an empty hand.

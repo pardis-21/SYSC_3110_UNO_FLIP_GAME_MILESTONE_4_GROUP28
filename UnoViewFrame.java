@@ -8,13 +8,9 @@ public class UnoViewFrame extends JFrame implements UnoView {
 
 
     private JPanel cardPanel; // panel for current player's cards
-    private JPanel decksPanel; // panel for the discard pile, new card pile, and "UNO!" button
-    JButton drawPile;
     public JPanel scorePanel; // panel for the player's score
     public JButton nextPlayerButton;
 
-
-    private JButton unoButton;
     private static final int NUMBER_OF_CARDS_BEGGING_GAME = 7;
     private ArrayList<Player> playerNames;
     private final GameLogicModel model;
@@ -28,9 +24,11 @@ public class UnoViewFrame extends JFrame implements UnoView {
     //private JButton playerCard;
     private static final int SEVEN = 7;
 
-
+    private JPanel decksPanel; // panel for the discard pile, new card pile, and "UNO!" button
     public JButton discardPile;
     public JButton UNOButton;
+    public JButton drawPile;
+
 
 
     public UnoViewFrame(GameLogicModel model){
@@ -52,30 +50,24 @@ public class UnoViewFrame extends JFrame implements UnoView {
 
         cardPanel = new JPanel(); // display the players cards
         decksPanel = new JPanel();
-
         scorePanel = new JPanel(); // display score
         discardPile = new JButton(); //shows top card on discard pile
-        discardPile.setPreferredSize(new Dimension(200, 150));
-        discardPile.setFont(new Font("Arial", Font.BOLD, 18));
-
-
         drawPile = new JButton("DRAW"); //pile to take a card
         UNOButton = new JButton("UNO"); // when player has one card, button shows
         nextPlayerButton = new JButton("NEXT PLAYER");
 
-        // SETTING UP NEWCARD BUTTON
+
+        // SETTING UP NEW CARD BUTTON
         drawPile.setPreferredSize(new Dimension(150, 150));
         drawPile.setFont(new Font("Arial", Font.BOLD, 16));
         drawPile.setBackground(Color.GRAY);
         drawPile.setForeground(Color.BLACK);
 
-        //SETTING UP SCOREPANEL
+        //SETTING UP SCORE PANEL
         JLabel scoreLabel = new JLabel("Score: 0");
         scoreLabel.setForeground(Color.BLACK);
         scorePanel.setBackground(new Color(30, 120,60));
         scorePanel.add(scoreLabel);
-        //DECK PANEL
-        decksPanel.add(drawPile);
 
         // TESTING RANDOM CARD FOR DISCARD PILE
         Card topCard = new Card();
@@ -86,17 +78,28 @@ public class UnoViewFrame extends JFrame implements UnoView {
         else{
             displaNum = topCard.getCardType().toString();
         }
+        //SETTING UP DISCARD PILE BUTTON
+        discardPile.setFont(new Font("Arial", Font.BOLD, 18));
         discardPile.setText(displaNum);
         discardPile.setBackground(topCard.JavaCardColour(topCard.getCardColour()));
         discardPile.setForeground(Color.BLACK);
         discardPile.setFont(new Font("Arial", Font.BOLD, 18));
         discardPile.setPreferredSize(new Dimension(150, 150));
 
+       UNOButton.setText("UNO!!");
+       UNOButton.setBackground(Color.WHITE);
+       UNOButton.setForeground(Color.BLACK);
+       UNOButton.setFont(new Font("Arial", Font.BOLD, 18));
+       UNOButton.setPreferredSize(new Dimension(150, 150));
+
 
         // ADDING LAYOUT
         setLayout(new BorderLayout());
         decksPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 100, 200));
+        decksPanel.add(drawPile);
         decksPanel.add(discardPile);
+        decksPanel.add(UNOButton);
+
 
         add(decksPanel, BorderLayout.CENTER);
         add(cardPanel, BorderLayout.SOUTH);
