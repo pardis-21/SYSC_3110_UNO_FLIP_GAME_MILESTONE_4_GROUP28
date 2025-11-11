@@ -3,16 +3,38 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+/**
+ * This class acts as the bridge between the GameLogicModel and the view.
+ * It handles user interactions such as playing cards, drawing cards,
+ * ending turns, and calling 'UNO'. The controller ensures that the view stays updated
+ * according to the state of the model.
+ * @Author Charis Nobossi 101297742
+ * @Author Anvita Ala 101301514
+ * @Author Pardis Ehsani 101300400
+ * @Author Pulcherie Mbaye 101302394
+ *
+ */
 public class UnoController implements ActionListener {
 
     private UnoViewFrame viewFrame;
     private final GameLogicModel model;
 
 
+    /**
+     * Constructs a new controller with the given model
+     *
+     * @param model contains the game logic
+     */
     public UnoController(GameLogicModel model) {
 
         this.model = model;
     }
+
+    /**
+     * sets the iew for this controller and connexts event listeners to the appropriate button
+     *
+     * @param viewFrame represents the GUI
+     */
 
     public void setView(UnoViewFrame viewFrame) {
         this.viewFrame = viewFrame;
@@ -26,10 +48,12 @@ public class UnoController implements ActionListener {
         updateView();    }
 
 
-
-
-
-
+    /**
+     * Handles what happens when the player clicks on a card they want to play
+     * checks if the card can be played on the current top card,
+     * updates the view and manages rounds
+     * @param heldCard the card clicked by the player
+     */
     public void onCardClicked(Card heldCard) {
         if (model.isTurnCompleted()) {
             JOptionPane.showMessageDialog(null, "Your turn is complete! Click on the next player button.");
@@ -83,13 +107,21 @@ public class UnoController implements ActionListener {
         }
     }
 
+    /**
+     * handles when the player clicks on the draw button
+     * draws a new card for the current player and updates the view
+     */
     public void onDrawClicked(){
         model.drawCardCurrentPlayer();
         updateView();
     }
 
 
-
+    /**
+     * handles all button events in the GUI
+     * and responds accordingly
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (viewFrame == null) {
@@ -148,6 +180,9 @@ public class UnoController implements ActionListener {
 
     }
 
+    /**
+     * Updates the view to reflect the current game state
+     */
     public void updateView() {
         if (viewFrame == null) {
             return;
@@ -163,6 +198,11 @@ public class UnoController implements ActionListener {
 
     }
 
+
+    /**
+     * returns the current player's hand
+     * @return a list of cards representing the player's hand
+     */
     public List<Card> getCurrentPlayerHand() {
         return model.getCurrentPlayer().getHand();
     }

@@ -8,22 +8,31 @@ import static org.junit.Assert.*;
 public class GameLogicModelTest {
 
     private GameLogicModel gameLogic;
-    private Game game;
-    private ArrayList<Player> playerNames;
+    private PlayerOrder playerOrder;
+    private Player p1, p2;
+//    private Game game;
+//    private ArrayList<Player> playerNames;
 
     @Before
     public void setUp() {
-        playerNames = new ArrayList<>();
-        playerNames.add(new Player("1"));
-        playerNames.add(new Player("2"));
-        playerNames.add(new Player("3"));
+        gameLogic = new GameLogicModel();
+        playerOrder = new PlayerOrder();
+        p1 = new Player("player 1");
+        p2 = new Player("player 2");
+        playerOrder.addPlayer(p1);
+        playerOrder.addPlayer(p2);
+        gameLogic.setPlayerOrder(playerOrder);
+//        playerNames = new ArrayList<>();
+//        playerNames.add(new Player("1"));
+//        playerNames.add(new Player("2"));
+//        playerNames.add(new Player("3"));
 
         //gameLogic = new GameLogicModel(playerNames);
 
-        PlayerOrder playerOrder = new PlayerOrder();
-        playerOrder.addPlayer(playerNames.get(0));
-        playerOrder.addPlayer(playerNames.get(1));
-        playerOrder.addPlayer(playerNames.get(2));
+//        PlayerOrder playerOrder = new PlayerOrder();
+//        playerOrder.addPlayer(playerNames.get(0));
+//        playerOrder.addPlayer(playerNames.get(1));
+//        playerOrder.addPlayer(playerNames.get(2));
     }
 
     @Test
@@ -59,6 +68,73 @@ public class GameLogicModelTest {
         gameLogic.startGame();
         assertNotNull("Top card should not be null after starting the game", gameLogic.getTopCard());
     }
+
+    @Test
+    public void testDrawCardCurrentPlayerAddsCard(){
+        int initialHand = p1.getHand().size();
+        gameLogic.drawCardCurrentPlayer();
+        assertEquals(initialHand + 1, p1.getHand().size());
+    }
+
+
+    @Test
+    public void testSetAndGetTurnCompleted(){
+        gameLogic.setTurnCompleted(true);
+        assertTrue(gameLogic.isTurnCompleted());
+    }
+
+    @Test
+    public void testTryPlayCardValidCardReturnsTrue(){
+        Card top = new Card();
+        top.setCardColour("RED");
+
+        Card playable = new Card();
+        playable.setCardColour("RED");
+        p1.getHand().clear();
+        p1.getHand().add(playable);
+
+        gameLogic.startGame();
+        gameLogic.getTopCard().setCardColour("RED");
+
+        boolean result = gameLogic.tryPlayCard(playable);
+
+        assertTrue("Should return true for a playable card", result);
+
+    }
+
+    @Test
+    public void testSetPlayerOrderInitializesScores(){
+        gameLogic.setPlayerOrder(playerOrder);
+        assertNull(gameLogic.getMatchWinner(500));
+    }
+
+    @Test
+    public void testPlayerTurnClockwise(){
+        Player firstPlayer = gameLogic.getCurrentPlayer();
+        gameLogic.playerTurn();
+        assertNotEquals(firstPlayer, gameLogic.getCurrentPlayer());
+    }
+
+    @Test
+    public void testAwardRoundPointWhenWinnerEmptiesHand(){
+        p1.getHand().clear();
+        p2.getHand().add(new Card());
+        gameLogic.startGame();
+        gameLogic.playGame(new Card());
+        assertNotNull(gameLogic.getMatchWinner(0));
+    }
+
+    @Test
+    public void testGetTotalNumberOfPlayers(){
+        assertEquals(gameLogic.getCurrentPlayer().getHand(), gameLogic.getPlayerHand());
+    }
+
+    @Test
+    public void testGetDirectionInitiallyClockwise(){
+        assertTrue(gameLogic.getDirection());
+    }
+
+
 
     @Test
     public void testPlayerTurnRunsWithoutException() {

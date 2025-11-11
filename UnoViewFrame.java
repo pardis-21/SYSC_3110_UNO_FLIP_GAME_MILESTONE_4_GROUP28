@@ -4,6 +4,18 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represents the GUI for the Uno game. It displays the player's hand, discard and draw piles
+ * and provides buttons for player interactions such as drawing cards, declaring UNO, and moving
+ * to the next player.
+ * This class is part of the MVC pattern and interacts with GameLogicModel and UnoController to
+ * update and display teh current game state.
+ * @Author Charis Nobossi 101297742
+ * @Author Anvita Ala 101301514
+ * @Author Pardis Ehsani 101300400
+ * @Author Pulcherie Mbaye 101302394
+ */
+
 public class UnoViewFrame extends JFrame implements UnoView {
 
 
@@ -31,7 +43,10 @@ public class UnoViewFrame extends JFrame implements UnoView {
     public JButton drawPile;
 
 
-
+    /**
+     * Constructs the UNO game frame, initialising all ui components
+     * @param model the model managing the game logic
+     */
     public UnoViewFrame(GameLogicModel model){
         super("Uno");
         this.model = model;
@@ -119,6 +134,12 @@ public class UnoViewFrame extends JFrame implements UnoView {
         setVisible(true);
 
     }
+
+    /**
+     * Updates the display of the current player's hand by creating
+     * button components for each card in their hand
+     * @param hand the list of cards in the player's hand
+     */
     public void updateHand(List<Card> hand){
         cardPanel.removeAll();  // clearing the old buttons
 
@@ -147,6 +168,11 @@ public class UnoViewFrame extends JFrame implements UnoView {
     }
 
 
+    /**
+     * updates the top card displayed on the discard pile.
+     * If the top card is a wild, prompts the user ti select a color
+     * @param card the new top card to display
+     */
     public void updateTopCard(Card card){
         if (card == null) return;
 
@@ -175,10 +201,18 @@ public class UnoViewFrame extends JFrame implements UnoView {
     }
 
 
+    /**
+     * displays a popup message dialog with teh given message text
+     * @param message message to be displayed
+     */
     public void showMessage(String message){
         JOptionPane.showMessageDialog(this, message);
     }
 
+    /**
+     * Initializes and displays the current players hamd at teh start of a game
+     * And clears previous cards and loads the current player's hand as buttons
+     */
     //STARTING THE GAME FOR THE FIRST 7 CARDS PER PLAYER
     public void startGamePlayerButtons(){
 
@@ -222,12 +256,21 @@ public class UnoViewFrame extends JFrame implements UnoView {
 
     }
 
+    /**
+     * updates the frame when the model notifies observers that
+     * a player's turn has changed.
+     */
     //called by model.notifyObserver()
     private void update(){
         model.playerTurn();
         startGamePlayerButtons();
 
     }
+
+    /**
+     * Sets the controller used by the view
+     * @param controller the controller managing game actions
+     */
     public void setController(UnoController controller) {
         this.controller = controller;
     }
