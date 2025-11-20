@@ -91,15 +91,15 @@ public class PlayerTest {
 
 
 
-//        Card.Colour colour = topcard.getCardColour();
+//        Card.Colour colour = topcard.getCardLightColour();
 //        colour = Card.Colour.RED; // set the top card colour to red
-//        Card.Type type = topcard.getCardType();
+//        Card.Type type = topcard.getCardLightType();
 //        type = Card.Type.FIVE; // set the top card type to 5 // enum is immutable
 //
 //      Card playerCard = new Card();
-//      Card.Colour playerColour = topcard.getCardColour();
+//      Card.Colour playerColour = topcard.getCardLightColour();
 //      playerColour = Card.Colour.RED; // set the top card colour to red
-//      Card.Type playerType = topcard.getCardType();
+//      Card.Type playerType = topcard.getCardLightType();
 //      playerType = Card.Type.THREE; // set the top card type to 5
 //
 //      player.getHand().add(playerCard);

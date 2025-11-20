@@ -74,8 +74,8 @@ public class UnoController implements ActionListener {
         model.setTurnCompleted(true);
 
         Card updated = model.getTopCard();
-        Card.Type type = updated.getCardType();
-        if(type == Card.Type.REVERSE || type == Card.Type.SKIP || type == Card.Type.DRAW_ONE || type == Card.Type.WILD_DRAW2){
+        Card.LightType type = updated.getCardLightType();
+        if(type == Card.LightType.REVERSE || type == Card.LightType.SKIP || type == Card.LightType.DRAW_ONE || type == Card.LightType.WILD_DRAW2){
             model.setTurnCompleted(false);
         }
 

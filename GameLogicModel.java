@@ -25,11 +25,6 @@ public class GameLogicModel {
     int numPlayers = 0;
 
 
-    //NEW GUI COMPONENTS ADDED
-    private List<UnoView> views = new ArrayList<>();
-
-
-
     /**
      * Constructs a new GameLogic instance and initializes players, draw pile,
      * and default direction.
@@ -64,9 +59,7 @@ public class GameLogicModel {
 
 
 
-    public void addUnoViewFrame(UnoView view){
-        views.add(view);
-    }
+
     /**
      * Initializes the score map with each player's score set to 0.
      */
@@ -90,11 +83,11 @@ public class GameLogicModel {
         }
         //this is to make sure the top card isn't a special card
         while (
-                drawPile.get(0).getCardType() == Card.Type.DRAW_ONE ||
-                        drawPile.get(0).getCardType() == Card.Type.WILD_DRAW2 ||
-                        drawPile.get(0).getCardType() == Card.Type.WILD ||
-                        drawPile.get(0).getCardType() == Card.Type.REVERSE ||
-                        drawPile.get(0).getCardType() == Card.Type.SKIP
+                drawPile.get(0).getCardLightType() == Card.LightType.DRAW_ONE ||
+                        drawPile.get(0).getCardLightType() == Card.LightType.WILD_DRAW2 ||
+                        drawPile.get(0).getCardLightType() == Card.LightType.WILD ||
+                        drawPile.get(0).getCardLightType() == Card.LightType.REVERSE ||
+                        drawPile.get(0).getCardLightType() == Card.LightType.SKIP
         ) {
             Card topCard = drawPile.remove(0);
             drawPile.add(topCard);
@@ -178,7 +171,7 @@ public class GameLogicModel {
 
     public void playGame(Card card) {
 
-        if (card.getCardType().equals(Card.Type.REVERSE)) {
+        if (card.getCardLightType().equals(Card.LightType.REVERSE)) {
             direction = !direction;
             playerOrder.getCurrentPlayer().getHand().remove(card);
             playerTurn();
@@ -186,14 +179,14 @@ public class GameLogicModel {
                 playerTurn();
             }
 
-        } else if (card.getCardType().equals(Card.Type.SKIP)) {
+        } else if (card.getCardLightType().equals(Card.LightType.SKIP)) {
             playerOrder.getCurrentPlayer().getHand().remove(card);
             playerTurn(); // skip this player
             JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has been skipped!");
 
             playerTurn();
 
-        } else if (card.getCardType().equals(Card.Type.WILD_DRAW2)) {
+        } else if (card.getCardLightType().equals(Card.LightType.WILD_DRAW2)) {
             playerOrder.getCurrentPlayer().getHand().remove(card);
             playerTurn();
             playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
@@ -205,7 +198,7 @@ public class GameLogicModel {
 
             playerTurn();
 
-        } else if (card.getCardType().equals(Card.Type.DRAW_ONE)) {
+        } else if (card.getCardLightType().equals(Card.LightType.DRAW_ONE)) {
             playerOrder.getCurrentPlayer().getHand().remove(card);
 
             playerTurn();

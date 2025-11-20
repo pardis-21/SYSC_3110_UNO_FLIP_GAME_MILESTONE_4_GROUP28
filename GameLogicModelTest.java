@@ -86,15 +86,15 @@ public class GameLogicModelTest {
     @Test
     public void testTryPlayCardValidCardReturnsTrue(){
         Card top = new Card();
-        top.setCardColour("RED");
+        top.setCardLightColour("RED");
 
         Card playable = new Card();
-        playable.setCardColour("RED");
+        playable.setCardLightColour("RED");
         p1.getHand().clear();
         p1.getHand().add(playable);
 
         gameLogic.startGame();
-        gameLogic.getTopCard().setCardColour("RED");
+        gameLogic.getTopCard().setCardLightColour("RED");
 
         boolean result = gameLogic.tryPlayCard(playable);
 

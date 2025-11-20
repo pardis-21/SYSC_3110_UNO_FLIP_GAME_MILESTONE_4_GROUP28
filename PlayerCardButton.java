@@ -10,8 +10,8 @@ import javax.swing.*;
  */
 
 public class PlayerCardButton extends JButton {
-    private Card.Type cardType;
-    private Card.Colour cardColour;
+    private Card.LightType cardType;
+    private Card.LightColour cardColour;
     private Card card;
 
 
@@ -24,15 +24,15 @@ public class PlayerCardButton extends JButton {
      */
     public PlayerCardButton(Card card){
         this.card = card;
-        cardType = card.getCardType();
-        cardColour = card.getCardColour();
+        cardType = card.getCardLightType();
+        cardColour = card.getCardLightColour();
     }
 
     /**
      * returns the type of the card represented by this button
      * @return card type
      */
-    public Card.Type getCardType() {
+    public Card.LightType getCardType() {
         return cardType;
 
     }
@@ -41,7 +41,7 @@ public class PlayerCardButton extends JButton {
      * returns the colour of the card represented by this button
      * @return card colour
      */
-    public Card.Colour getCardColour() {
+    public Card.LightColour getCardColour() {
         return cardColour;
     }
 

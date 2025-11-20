@@ -9,8 +9,8 @@ public class CardTest {
     @Test
     public void testRandomCard(){
         Card card = new Card();
-        assertNotNull("card should have a colour",card.getCardColour());
-        assertNotNull("card should have a type",card.getCardType());
+        assertNotNull("card should have a colour",card.getCardLightColour());
+        assertNotNull("card should have a type",card.getCardLightType());
 
 
     }
@@ -21,9 +21,9 @@ public class CardTest {
         boolean wild = false;
         for(int i = 0; i< 50; i++){
             Card card = new Card();
-            if(card.getCardType() == Card.Type.WILD || card.getCardType() == Card.Type.WILD_DRAW2){
+            if(card.getCardLightType() == Card.LightType.WILD || card.getCardLightType() == Card.LightType.WILD_DRAW2){
                 wild = true;
-                assertEquals("a wild card should have a colour",Card.Colour.RAINBOW, card.getCardColour());
+                assertEquals("a wild card should have a colour", Card.LightColour.RAINBOW, card.getCardLightColour());
             }
         }
 
@@ -33,8 +33,8 @@ public class CardTest {
     public void testNormalCardColourNotRainbow(){
         for(int i = 0; i<50; i++){
             Card card = new Card();
-            if(card.getCardType() != Card.Type.WILD && card.getCardType() != Card.Type.WILD_DRAW2){
-                assertNotEquals("non wild cards should not have rainbow colour", Card.Colour.RAINBOW, card.getCardColour());
+            if(card.getCardLightType() != Card.LightType.WILD && card.getCardLightType() != Card.LightType.WILD_DRAW2){
+                assertNotEquals("non wild cards should not have rainbow colour", Card.LightColour.RAINBOW, card.getCardLightColour());
             }
         }
     }
@@ -46,12 +46,12 @@ public class CardTest {
         Card topCard = new Card();
 
         boolean value;
-        if(card.getCardType() == Card.Type.WILD || card.getCardType() == Card.Type.WILD_DRAW2){
+        if(card.getCardLightType() == Card.LightType.WILD || card.getCardLightType() == Card.LightType.WILD_DRAW2){
             value = true;
 
            // assertTrue("wild card should always be playable", card.playCardOnAnother(topCard));
         }
-        else if(card.getCardColour() == topCard.getCardColour() || card.getCardType() == topCard.getCardType() || card.getCardColour() == Card.Colour.RAINBOW){
+        else if(card.getCardLightColour() == topCard.getCardLightColour() || card.getCardLightType() == topCard.getCardLightType() || card.getCardLightColour() == Card.LightColour.RAINBOW){
             value = true;
 
            // assertTrue("a non wild card should only be able to play if the type or colour matches the topcards", card.playCardOnAnother(topCard));

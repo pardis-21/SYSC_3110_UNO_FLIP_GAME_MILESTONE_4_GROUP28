@@ -16,7 +16,7 @@ import java.util.List;
  * @Author Pulcherie Mbaye 101302394
  */
 
-public class UnoViewFrame extends JFrame implements UnoView {
+public class UnoViewFrame extends JFrame {
 
 
     private JPanel cardPanel; // panel for current player's cards
@@ -88,16 +88,16 @@ public class UnoViewFrame extends JFrame implements UnoView {
         // TESTING RANDOM CARD FOR DISCARD PILE
         Card topCard = new Card();
         String displaNum;
-        if(topCard.getCardType().ordinal() <= 9) {
-            displaNum = String.valueOf(topCard.getCardType().ordinal());
+        if(topCard.getCardLightType().ordinal() <= 9) {
+            displaNum = String.valueOf(topCard.getCardLightType().ordinal());
         }
         else{
-            displaNum = topCard.getCardType().toString();
+            displaNum = topCard.getCardLightType().toString();
         }
         //SETTING UP DISCARD PILE BUTTON
         discardPile.setFont(new Font("Arial", Font.BOLD, 18));
         discardPile.setText(displaNum);
-        discardPile.setBackground(topCard.JavaCardColour(topCard.getCardColour()));
+        discardPile.setBackground(topCard.JavaCardLightColour(topCard.getCardLightColour()));
         discardPile.setForeground(Color.BLACK);
         discardPile.setFont(new Font("Arial", Font.BOLD, 18));
         discardPile.setPreferredSize(new Dimension(150, 150));
@@ -145,9 +145,9 @@ public class UnoViewFrame extends JFrame implements UnoView {
 
         if (hand != null) {
             for (Card card : hand) {
-                String label = card.getCardColour() + " " + card.getCardType();
+                String label = card.getCardLightColour() + " " + card.getCardLightType();
                 JButton cardButton = new JButton(label);
-                cardButton.setBackground(card.JavaCardColour(card.getCardColour()));
+                cardButton.setBackground(card.JavaCardLightColour(card.getCardLightColour()));
                 cardButton.setForeground(Color.BLACK);
                 cardButton.setOpaque(true);
                 cardButton.setContentAreaFilled(true);
@@ -176,9 +176,9 @@ public class UnoViewFrame extends JFrame implements UnoView {
     public void updateTopCard(Card card){
         if (card == null) return;
 
-        String text = card.getCardColour() + " " + card.getCardType();  // e.g. RED THREE
+        String text = card.getCardLightColour() + " " + card.getCardLightType();  // e.g. RED THREE
 
-        if(card.getCardColour() == Card.Colour.RAINBOW){
+        if(card.getCardLightColour() == Card.LightColour.RAINBOW){
             String[] options = {"RED", "BLUE", "YELLOW", "GREEN"};
             Object selectedOption = JOptionPane.showInputDialog(
                     null,
@@ -189,12 +189,12 @@ public class UnoViewFrame extends JFrame implements UnoView {
                     options, // Array of options for the dropdown
                     options[0] // Default selected option
             );
-            card.setCardColour((String) selectedOption);
+            card.setCardLightColour((String) selectedOption);
         }
         model.playGame(card);
 
         discardPile.setText(text);
-        discardPile.setBackground(card.JavaCardColour(card.getCardColour()));
+        discardPile.setBackground(card.JavaCardLightColour(card.getCardLightColour()));
         discardPile.setForeground(Color.BLACK);
         discardPile.setOpaque(true);
         discardPile.setContentAreaFilled(true);
