@@ -16,7 +16,7 @@ public class GameLogicModel {
     private PlayerOrder playerOrder;
     private ArrayList<Card> cards;
     private final ArrayList<Card> discardPile;
-    private final ArrayList<Card> drawPile;
+    public final ArrayList<Card> drawPile;
     private boolean roundEnded = false;
     //private ArrayList<Card> flipPile; for future use
     private boolean direction; //clockwise or counterclockwise
@@ -211,13 +211,12 @@ public class GameLogicModel {
 
                 playerTurn();
 
-            } else if(card.getCardLightType().equals(Card.LightType.FLIP_TO_DARK)){
+            } else if(card.getCardLightType().equals(Card.LightType.FLIP_TO_DARK)) {
                 playerOrder.getCurrentPlayer().getHand().remove(card);
                 flipSide();
                 playerTurn();
-            }
 
-            else {
+            } else {
                 playerOrder.getCurrentPlayer().getHand().remove(card);
             }
 
@@ -392,20 +391,6 @@ public class GameLogicModel {
     }
 
 
-    /**
-     * Runs a full UNO game session, starting rounds and continuing until
-     * a player wins the round.
-     */
-    public void playUNOGame(){
-        roundEnded = false;
-        startGame();
-        while(!roundEnded){
-            confirmPlayerAtScreen();
-            System.out.println("Top card: " + getTopCard() + "\n");
-        }
-    }
-
-
     public void drawCardCurrentPlayer() {
         getCurrentPlayer().getHand().add(drawPile.get(0));
         drawPile.remove(0);
@@ -449,6 +434,11 @@ public class GameLogicModel {
         }
         getTopCard().lightMode = !getTopCard().lightMode;
 
+    }
+
+
+    public PlayerOrder getPlayerOrder(){
+        return playerOrder;
     }
 
 }

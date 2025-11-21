@@ -141,6 +141,12 @@ public class UnoController implements ActionListener {
         Object source = e.getSource();
 
         if (source == viewFrame.drawPile) {
+            if(model.getTopCard().getCardDarkType().equals(Card.DarkType.WILD_DRAW_COLOUR) && !model.lightMode){
+                if(!model.drawPile.getFirst().getCardDarkColour().equals(model.getTopCard().getCardDarkColour())){
+                    onDrawClicked();
+                    return;
+                }
+            }
             if (model.isTurnCompleted()) {
                 JOptionPane.showMessageDialog(null, "Your turn is complete! Click on the next player button.");
                 return;
@@ -199,6 +205,8 @@ public class UnoController implements ActionListener {
             viewFrame.updateHand(model.getPlayerHand());
             viewFrame.updateTopCard(model.getTopCard());
             viewFrame.currentPlayerName.setText(model.getCurrentPlayer().getName());
+            if (model.getTopCard().getCardDarkType().equals(Card.DarkType.FLIP_TO_LIGHT) || model.getTopCard().getCardLightType().equals(Card.LightType.FLIP_TO_DARK )){
+                viewFrame.updateAllPlayerHands(model.getPlayerOrder());}
         }
 
 

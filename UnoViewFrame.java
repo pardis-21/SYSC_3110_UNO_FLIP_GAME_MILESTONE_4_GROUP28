@@ -176,6 +176,12 @@ public class UnoViewFrame extends JFrame {
         }
     }
 
+    public void updateAllPlayerHands(PlayerOrder order){
+        for (Player player: order.getAllPlayersToArrayList()){
+            updateHand(player.getHand());
+        }
+    }
+
 
     /**
      * updates the top card displayed on the discard pile.
@@ -185,9 +191,9 @@ public class UnoViewFrame extends JFrame {
     public void updateTopCard(Card card) {
         if (card == null) return;
         if (card.getCardLightType().equals(Card.LightType.FLIP_TO_DARK) || card.getCardDarkType().equals(Card.DarkType.FLIP_TO_LIGHT)){
-            card.lightMode = !card.lightMode;
+            model.lightMode = !model.lightMode;
         }
-        if (card.lightMode) {
+        if (model.lightMode) {
             String text = card.getCardLightColour() + " " + card.getCardLightType();  // e.g. RED THREE
 
             if (card.getCardLightColour() == Card.LightColour.RAINBOW) {
