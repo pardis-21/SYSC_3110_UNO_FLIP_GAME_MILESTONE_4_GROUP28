@@ -74,9 +74,18 @@ public class UnoController implements ActionListener {
         model.setTurnCompleted(true);
 
         Card updated = model.getTopCard();
-        Card.LightType type = updated.getCardLightType();
-        if(type == Card.LightType.REVERSE || type == Card.LightType.SKIP || type == Card.LightType.DRAW_ONE || type == Card.LightType.WILD_DRAW2){
-            model.setTurnCompleted(false);
+        Card.LightType lightType = updated.getCardLightType();
+        Card.DarkType darkType = updated.getCardDarkType();
+
+        if (model.lightMode) {
+            if (lightType == Card.LightType.REVERSE || lightType == Card.LightType.SKIP || lightType == Card.LightType.DRAW_ONE || lightType == Card.LightType.WILD_DRAW2) {
+                model.setTurnCompleted(false);
+            }
+        }
+        else{
+            if(darkType == Card.DarkType.REVERSE || darkType == Card.DarkType.SKIP_ALL || darkType == Card.DarkType.DRAW_FIVE){
+                model.setTurnCompleted(false);
+            }
         }
 
         if(model.getCurrentPlayer().getHand().isEmpty()){
@@ -184,10 +193,7 @@ public class UnoController implements ActionListener {
      * Updates the view to reflect the current game state
      */
     public void updateView() {
-        if (viewFrame == null) {
-            return;
-        }
-        else {
+        if (viewFrame != null) {
             //PlayerOrder playerOrder = new PlayerOrder();
             //List<Card> hand = model.getPlayerHand();
             viewFrame.updateHand(model.getPlayerHand());

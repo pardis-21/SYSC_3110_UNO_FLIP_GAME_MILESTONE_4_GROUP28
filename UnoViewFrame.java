@@ -140,31 +140,40 @@ public class UnoViewFrame extends JFrame {
      * button components for each card in their hand
      * @param hand the list of cards in the player's hand
      */
-    public void updateHand(List<Card> hand){
+    public void updateHand(List<Card> hand) {
         cardPanel.removeAll();  // clearing the old buttons
+        if (model.getTopCard().getCardLightType().equals(Card.LightType.FLIP_TO_DARK) || model.getTopCard().getCardDarkType().equals(Card.DarkType.FLIP_TO_LIGHT)){
+            model.lightMode = !model.lightMode;
+        }
 
         if (hand != null) {
             for (Card card : hand) {
-                String label = card.getCardLightColour() + " " + card.getCardLightType();
-                JButton cardButton = new JButton(label);
-                cardButton.setBackground(card.JavaCardLightColour(card.getCardLightColour()));
+
+                String label;
+                JButton cardButton = new JButton();
+
+                if (model.lightMode) {
+                    label = card.getCardLightColour() + " " + card.getCardLightType();
+                    cardButton.setBackground(card.JavaCardLightColour(card.getCardLightColour()));
+                } else {
+                    label = card.getCardDarkColour() + " " + card.getCardDarkType();
+                    cardButton.setBackground(card.JavaCardDarkColour(card.getCardDarkColour()));
+                }
+
+                cardButton.setText(label);
                 cardButton.setForeground(Color.BLACK);
                 cardButton.setOpaque(true);
                 cardButton.setContentAreaFilled(true);
-                cardPanel.add(cardButton);
 
-                cardButton.addActionListener(e -> {
-                    if (controller != null) {
-                        controller.onCardClicked(card);
-                    }
-                });
+                // listener
+                cardButton.addActionListener(e -> controller.onCardClicked(card));
 
                 cardPanel.add(cardButton);
             }
-        }
 
-        cardPanel.revalidate();
-        cardPanel.repaint();
+            cardPanel.revalidate();
+            cardPanel.repaint();
+        }
     }
 
 
@@ -173,31 +182,60 @@ public class UnoViewFrame extends JFrame {
      * If the top card is a wild, prompts the user ti select a color
      * @param card the new top card to display
      */
-    public void updateTopCard(Card card){
+    public void updateTopCard(Card card) {
         if (card == null) return;
-
-        String text = card.getCardLightColour() + " " + card.getCardLightType();  // e.g. RED THREE
-
-        if(card.getCardLightColour() == Card.LightColour.RAINBOW){
-            String[] options = {"RED", "BLUE", "YELLOW", "GREEN"};
-            Object selectedOption = JOptionPane.showInputDialog(
-                    null,
-                    "Please choose a colour to set the rainbow:",
-                    "Selection", // Title of the dialog
-                    JOptionPane.QUESTION_MESSAGE, // Message type (e.g., QUESTION_MESSAGE, INFORMATION_MESSAGE)
-                    null, // Icon (null for default)
-                    options, // Array of options for the dropdown
-                    options[0] // Default selected option
-            );
-            card.setCardLightColour((String) selectedOption);
+        if (card.getCardLightType().equals(Card.LightType.FLIP_TO_DARK) || card.getCardDarkType().equals(Card.DarkType.FLIP_TO_LIGHT)){
+            card.lightMode = !card.lightMode;
         }
-        model.playGame(card);
+        if (card.lightMode) {
+            String text = card.getCardLightColour() + " " + card.getCardLightType();  // e.g. RED THREE
 
-        discardPile.setText(text);
-        discardPile.setBackground(card.JavaCardLightColour(card.getCardLightColour()));
-        discardPile.setForeground(Color.BLACK);
-        discardPile.setOpaque(true);
-        discardPile.setContentAreaFilled(true);
+            if (card.getCardLightColour() == Card.LightColour.RAINBOW) {
+                String[] options = {"RED", "BLUE", "YELLOW", "GREEN"};
+                Object selectedOption = JOptionPane.showInputDialog(
+                        null,
+                        "Please choose a colour to set the rainbow:",
+                        "Selection", // Title of the dialog
+                        JOptionPane.QUESTION_MESSAGE, // Message type (e.g., QUESTION_MESSAGE, INFORMATION_MESSAGE)
+                        null, // Icon (null for default)
+                        options, // Array of options for the dropdown
+                        options[0] // Default selected option
+                );
+                card.setCardLightColour((String) selectedOption);
+            }
+            model.playGame(card);
+
+            discardPile.setText(text);
+            discardPile.setBackground(card.JavaCardLightColour(card.getCardLightColour()));
+            discardPile.setForeground(Color.BLACK);
+            discardPile.setOpaque(true);
+            discardPile.setContentAreaFilled(true);
+        }
+        else{
+            String text = card.getCardDarkColour() + " " + card.getCardDarkType();  // e.g. RED THREE
+
+            if (card.getCardDarkColour() == Card.DarkColour.RAINBOW) {
+                String[] options = {"ORANGE", "TEAL", "PINK", "PURPLE"};
+                Object selectedOption = JOptionPane.showInputDialog(
+                        null,
+                        "Please choose a colour to set the rainbow:",
+                        "Selection", // Title of the dialog
+                        JOptionPane.QUESTION_MESSAGE, // Message type (e.g., QUESTION_MESSAGE, INFORMATION_MESSAGE)
+                        null, // Icon (null for default)
+                        options, // Array of options for the dropdown
+                        options[0] // Default selected option
+                );
+                card.setCardDarkColour((String) selectedOption);
+
+            }
+            model.playGame(card);
+
+            discardPile.setText(text);
+            discardPile.setBackground(card.JavaCardDarkColour(card.getCardDarkColour()));
+            discardPile.setForeground(Color.BLACK);
+            discardPile.setOpaque(true);
+            discardPile.setContentAreaFilled(true);
+        }
     }
 
 

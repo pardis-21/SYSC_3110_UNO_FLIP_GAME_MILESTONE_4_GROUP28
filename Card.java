@@ -105,14 +105,14 @@ public class Card {
     private DarkType cardDarkType;
     private LightColour cardLightColour;
     private DarkColour cardDarkColour;
-    public boolean lightSide; //true if the current side is light
+    public boolean lightMode; //true if the current side is light
 
     /**
      * Constructs a new Card with a random type and colour.
      * Wild cards automatically receive the RAINBOW colour.
      */
     public Card(){
-        lightSide = true;
+        lightMode = true;
         cardLightType = LightType.randomType();
         cardDarkType = DarkType.randomType();
 
@@ -244,7 +244,7 @@ public class Card {
      */
     //checks if this card can be played on top of another
     public boolean playCardOnAnother(Card topCard){
-        if (lightSide) {
+        if (lightMode) {
             // wild cards can be on top of anything
             if (this.cardLightColour == LightColour.RAINBOW) {
                 return true;
@@ -275,7 +275,7 @@ public class Card {
      * @return the point value of the card
      */
     public static int pointsForCard(Card c) {
-        if(c.lightSide) {
+        if(c.lightMode) {
             switch (c.getCardLightType()) {
                 case ZERO:
                     return 0;
@@ -373,7 +373,7 @@ public class Card {
      */
     @Override
     public String toString() {
-        if (lightSide) {
+        if (lightMode) {
             return cardLightColour.toString() + " " + cardLightType.toString();
         }
         else{

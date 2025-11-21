@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.util.*;
 import java.util.Scanner;
 
@@ -23,6 +24,7 @@ public class GameLogicModel {
     private static final int SEVEN = 7;
     private boolean turnCompleted = false;
     int numPlayers = 0;
+    boolean lightMode = true;
 
 
     /**
@@ -171,52 +173,95 @@ public class GameLogicModel {
 
     public void playGame(Card card) {
 
-        if (card.getCardLightType().equals(Card.LightType.REVERSE)) {
-            direction = !direction;
-            playerOrder.getCurrentPlayer().getHand().remove(card);
-            playerTurn();
-            if(playerOrder.numPlayers == 2){
+        if (lightMode) {
+            if (card.getCardLightType().equals(Card.LightType.REVERSE)) {
+                direction = !direction;
+                playerOrder.getCurrentPlayer().getHand().remove(card);
+                playerTurn();
+                if (playerOrder.numPlayers == 2) {
+                    playerTurn();
+                }
+
+            } else if (card.getCardLightType().equals(Card.LightType.SKIP)) {
+                playerOrder.getCurrentPlayer().getHand().remove(card);
+                playerTurn(); // skip this player
+                JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has been skipped!");
+
+                playerTurn();
+
+            } else if (card.getCardLightType().equals(Card.LightType.WILD_DRAW2)) {
+                playerOrder.getCurrentPlayer().getHand().remove(card);
+                playerTurn();
+                playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
+                drawPile.remove(0);
+                playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
+                drawPile.remove(0);
+
+                JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 2 cards and been skipped!");
+
+                playerTurn();
+
+            } else if (card.getCardLightType().equals(Card.LightType.DRAW_ONE)) {
+                playerOrder.getCurrentPlayer().getHand().remove(card);
+
+                playerTurn();
+                playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
+                drawPile.remove(0);
+                JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 1 card and been skipped!");
+
+                playerTurn();
+
+            } else if(card.getCardLightType().equals(Card.LightType.FLIP_TO_DARK)){
+                playerOrder.getCurrentPlayer().getHand().remove(card);
+                flipSide();
                 playerTurn();
             }
 
-        } else if (card.getCardLightType().equals(Card.LightType.SKIP)) {
-            playerOrder.getCurrentPlayer().getHand().remove(card);
-            playerTurn(); // skip this player
-            JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has been skipped!");
+            else {
+                playerOrder.getCurrentPlayer().getHand().remove(card);
+            }
 
-            playerTurn();
+            discardPile.add(0, card);
 
-        } else if (card.getCardLightType().equals(Card.LightType.WILD_DRAW2)) {
-            playerOrder.getCurrentPlayer().getHand().remove(card);
-            playerTurn();
-            playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
-            drawPile.remove(0);
-            playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
-            drawPile.remove(0);
-
-            JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 2 cards and been skipped!");
-
-            playerTurn();
-
-        } else if (card.getCardLightType().equals(Card.LightType.DRAW_ONE)) {
-            playerOrder.getCurrentPlayer().getHand().remove(card);
-
-            playerTurn();
-            playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
-            drawPile.remove(0);
-            JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 1 card and been skipped!");
-
-            playerTurn();
-
-        } else {
-            playerOrder.getCurrentPlayer().getHand().remove(card);
+            if (playerOrder.getCurrentPlayer().getHand().isEmpty()) {
+                awardRoundPointsTo(playerOrder.getCurrentPlayer());
+                return;
+            }
         }
+        else{
+            if (card.getCardDarkType().equals(Card.DarkType.REVERSE)) {
+                direction = !direction;
+                playerOrder.getCurrentPlayer().getHand().remove(card);
+                playerTurn();
+                if (playerOrder.numPlayers == 2) {
+                    playerTurn();
+                }
 
-        discardPile.add(0, card);
+            } else if (card.getCardDarkType().equals(Card.DarkType.DRAW_FIVE)) {
+                playerOrder.getCurrentPlayer().getHand().remove(card);
+                playerTurn(); // skip this player
+                for(int i = 0; i<5; i++) {//draw 5 cards
+                    playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
+                }
+                JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 5 cards and been skipped!");
+                playerTurn();
 
-        if (playerOrder.getCurrentPlayer().getHand().isEmpty()) {
-            awardRoundPointsTo(playerOrder.getCurrentPlayer());
-            return;
+            } else if (card.getCardDarkType().equals(Card.DarkType.SKIP_ALL)){
+                for (int i = 0; i<playerOrder.getAllPlayersToArrayList().size(); i++){
+                    playerTurn();
+                }
+                JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has skipped all other players!");
+
+            } else if(card.getCardDarkType().equals(Card.DarkType.WILD_DRAW_COLOUR)){
+                playerOrder.getCurrentPlayer().getHand().remove(card);
+                playerTurn();
+
+            } else if(card.getCardDarkType().equals(Card.DarkType.FLIP_TO_LIGHT)){
+                playerOrder.getCurrentPlayer().getHand().remove(card);
+                flipSide();
+                playerTurn();
+            }
+
         }
     }
 
@@ -392,5 +437,18 @@ public class GameLogicModel {
         return true;
     }
 
+    public void flipSide(){
+        lightMode = !lightMode;
+        for(Player player: playerOrder.getAllPlayersToArrayList()) {
+            for (Card card : player.getHand()) {
+                card.lightMode = !card.lightMode;
+            }
+        }
+        for(Card card: drawPile){
+            card.lightMode = !card.lightMode;
+        }
+        getTopCard().lightMode = !getTopCard().lightMode;
+
+    }
 
 }
