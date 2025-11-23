@@ -254,14 +254,24 @@ public class UnoController implements ActionListener {
                }
                // Let the AI take its turn
                AIPlayer aiPlayer = (AIPlayer) currentPlayer;
+               //ai model plays the card
                Card played = model.handleAIPlayer(aiPlayer);
+               model.setTurnCompleted(true);
+
                updateView();
 
+               //if the card can be played then
                if (played != null) {
                    viewFrame.showMessage(aiPlayer.getName() + " played " + played);
-               } else {
+
+                }
+               //otherwise ai picked up a card cuz they couldnt play anything
+               else {
                    viewFrame.showMessage(aiPlayer.getName() + " drew a card.");
+                   model.setTurnCompleted(true);
+                   model.playerTurn();
                }
+               updateView();
 
        }
         //handleAITurnIfCurrent();

@@ -282,11 +282,15 @@ public class GameLogicModel {
      */
     public void playerTurn() {
         //checking the players turn status
-        if (direction) {
-            playerOrder.nextPlayerClockwise();
+        if (isTurnCompleted()) {
+            if (direction) {
+                playerOrder.nextPlayerClockwise();
+            } else {
+                playerOrder.nextPlayerCounterClockwise();
+            }
         }
         else {
-            playerOrder.nextPlayerCounterClockwise();
+            return;
         }
     }
 
@@ -380,6 +384,7 @@ public class GameLogicModel {
 
     /**
      * handles an AI players turn
+     * @return the card the AI player plays
      */
     public Card handleAIPlayer(AIPlayer ai) {
 
@@ -391,8 +396,11 @@ public class GameLogicModel {
 
         // No playable card → draw
         if (chosenCard == null) {
+            //draw a card
             Card drawn = drawOneorNullCard();
+            //if there are more cards to draw from draw pile, then ai player will draw a card
             if(drawn != null) {
+                //adds the drawed card into its hand
                 ai.getHand().add(drawn);
                 JOptionPane.showMessageDialog(null, ai.getName() + " has drawn a card!");
 
@@ -402,8 +410,6 @@ public class GameLogicModel {
             playerTurn();
             return null;
         }
-
-
         // If it's a rainbow card, let AI set its colour first
         if (chosenCard.lightMode && chosenCard.getCardLightColour() == Card.LightColour.RAINBOW) {
             Card.LightColour chosenColour = ai.chooseBestLightColour();
@@ -417,12 +423,13 @@ public class GameLogicModel {
         boolean success = tryPlayCard(chosenCard);
         if(!success){
             setTurnCompleted(true);
-            //playerTurn();
+            playerTurn();
             return null;
         }
 
        // tryPlayCard(chosenCard);
         setTurnCompleted(true);
+        playerTurn();
 
         if (lightMode){
             Card.LightType lightType = chosenCard.getCardLightType();
@@ -561,8 +568,9 @@ public class GameLogicModel {
                     }
                     //after the cards have been dealt to that one player who had to DRAW FIVE
                     //skip to the next player automatically
-                    playerTurn();
+
                     setTurnCompleted(true);
+                    playerTurn();
                     break;
 
                 case SKIP_ALL:
