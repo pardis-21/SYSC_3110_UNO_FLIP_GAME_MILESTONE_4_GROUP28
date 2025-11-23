@@ -121,9 +121,15 @@ public class PlayerOrder {
             return allPlayers;
 
         }
+
+        playerNode temp = currentPlayer;
+
         for (int i = 0; i < numPlayers; i++){
-            allPlayers.add(currentPlayer.pName);
-            currentPlayer = currentPlayer.next;
+            //allPlayers.add(currentPlayer.pName);
+            allPlayers.add(temp.pName);
+            temp = temp.next;
+
+            //currentPlayer = currentPlayer.next;
         }
         return allPlayers;
     }

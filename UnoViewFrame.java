@@ -142,9 +142,9 @@ public class UnoViewFrame extends JFrame {
      */
     public void updateHand(List<Card> hand) {
         cardPanel.removeAll();  // clearing the old buttons
-        if (model.getTopCard().getCardLightType().equals(Card.LightType.FLIP_TO_DARK) || model.getTopCard().getCardDarkType().equals(Card.DarkType.FLIP_TO_LIGHT)){
-            model.lightMode = !model.lightMode;
-        }
+//        if (model.getTopCard().getCardLightType().equals(Card.LightType.FLIP_TO_DARK) || model.getTopCard().getCardDarkType().equals(Card.DarkType.FLIP_TO_LIGHT)){
+//            model.lightMode = !model.lightMode;
+//        }
 
         if (hand != null) {
             for (Card card : hand) {
@@ -190,9 +190,9 @@ public class UnoViewFrame extends JFrame {
      */
     public void updateTopCard(Card card) {
         if (card == null) return;
-        if (card.getCardLightType().equals(Card.LightType.FLIP_TO_DARK) || card.getCardDarkType().equals(Card.DarkType.FLIP_TO_LIGHT)){
-            model.lightMode = !model.lightMode;
-        }
+//        if (card.getCardLightType().equals(Card.LightType.FLIP_TO_DARK) || card.getCardDarkType().equals(Card.DarkType.FLIP_TO_LIGHT)){
+//            model.lightMode = !model.lightMode;
+//        }
         if (model.lightMode) {
             String text = card.getCardLightColour() + " " + card.getCardLightType();  // e.g. RED THREE
 
