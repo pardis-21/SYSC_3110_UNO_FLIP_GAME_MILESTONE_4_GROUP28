@@ -243,30 +243,31 @@ public class UnoController implements ActionListener {
     }
 
     private void handleAITurnIfCurrent() {
-       while (model.getCurrentPlayer() instanceof AIPlayer ai) {
-           //added a delay to really make it seem like you're playing against an AI model
-           try {
-               Thread.sleep(1500);
-           }
-           catch (InterruptedException e) {
-               Thread.currentThread().interrupt();
-           }
 
-           // Let the AI take its turn
-           Card played = model.handleAIPlayer(ai);
-           updateView();
+        Player currentPlayer = model.getCurrentPlayer();
+        if (currentPlayer instanceof AIPlayer) {
+            //added a delay to really make it seem like you're playing against an AI model
+               try {
+                   Thread.sleep(1500);
+               } catch (InterruptedException e) {
+                   Thread.currentThread().interrupt();
+               }
+               // Let the AI take its turn
+               AIPlayer aiPlayer = (AIPlayer) currentPlayer;
+               Card played = model.handleAIPlayer(aiPlayer);
+               updateView();
 
-           if (played != null) {
-               viewFrame.showMessage(ai.getName() + " played " + played);
-           }
-           else {
-               viewFrame.showMessage(ai.getName() + " drew a card.");
-           }
+               if (played != null) {
+                   viewFrame.showMessage(aiPlayer.getName() + " played " + played);
+               } else {
+                   viewFrame.showMessage(aiPlayer.getName() + " drew a card.");
+               }
 
            //model.setTurnCompleted(true);
-           model.playerTurn();
-           updateView();
+          // model.playerTurn();
+           //updateView();
        }
+        handleAITurnIfCurrent();
     }
 
 }
