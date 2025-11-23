@@ -163,7 +163,7 @@ public class GameLogicModel {
             } else if (card.getCardLightType().equals(Card.LightType.SKIP)) {
                 playerOrder.getCurrentPlayer().getHand().remove(card);
                 playerTurn(); // skip this player
-                JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has been skipped!");
+                //JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has been skipped!");
 
                 playerTurn();
 
@@ -175,7 +175,7 @@ public class GameLogicModel {
                 playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
                 drawPile.remove(0);
 
-                JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 2 cards and been skipped!");
+                //JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 2 cards and been skipped!");
 
                 playerTurn();
 
@@ -185,7 +185,7 @@ public class GameLogicModel {
                 playerTurn();
                 playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
                 drawPile.remove(0);
-                JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 1 card and been skipped!");
+                //JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 1 card and been skipped!");
 
                 playerTurn();
 
@@ -220,7 +220,7 @@ public class GameLogicModel {
                 for(int i = 0; i<5; i++) {//draw 5 cards
                     playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
                 }
-                JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 5 cards and been skipped!");
+                //JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 5 cards and been skipped!");
                 playerTurn();
 
             }
@@ -229,7 +229,7 @@ public class GameLogicModel {
                 //for (int i = 0; i<playerOrder.getAllPlayersToArrayList().size(); i++){
                     //playerTurn();
                 //}
-                JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has skipped all other players!");
+                //JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has skipped all other players!");
 
             } else if(card.getCardDarkType().equals(Card.DarkType.WILD_DRAW_COLOUR)){
                 playerOrder.getCurrentPlayer().getHand().remove(card);
@@ -508,7 +508,7 @@ public class GameLogicModel {
                     //playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
                    // drawPile.remove(0);
 
-                    JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 2 cards and been skipped!");
+                   // JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 2 cards and been skipped!");
 
                     playerTurn();
                     break;
@@ -522,8 +522,8 @@ public class GameLogicModel {
             }
 
         }
-        else { // dark mode
-
+        else {
+            // dark mode
             switch (card.getCardDarkType()) {
 
                 case REVERSE:
@@ -535,22 +535,22 @@ public class GameLogicModel {
                     break;
 
                 case DRAW_FIVE:
-                   // playerOrder.getCurrentPlayer().getHand().remove(card);
                     playerTurn(); // skip this player
                     for(int i = 0; i < 5; i++) {//draw 5 cards
                         playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
                         drawPile.remove(0); //removing the card so it doesnt get to be used again by the pile
                     }
-                    JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 5 cards and been skipped!");
+                    // JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 5 cards and been skipped!");
                     //playerTurn();
                     setTurnCompleted(true);
                     break;
 
                 case SKIP_ALL:
-                    for (int i = 0; i<playerOrder.getAllPlayersToArrayList().size(); i++){
-                        playerTurn();
-                    }
-                    JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has skipped all other players!");
+                    //DO NOTHING AS ITS AGAIN THE CURRENTS PLAYER TURN
+                    //for (int i = 0; i<playerOrder.getAllPlayersToArrayList().size(); i++){
+                        //playerTurn();
+                    //}
+                    //JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has skipped all other players!");
                     break;
 
                 case WILD_DRAW_COLOUR:

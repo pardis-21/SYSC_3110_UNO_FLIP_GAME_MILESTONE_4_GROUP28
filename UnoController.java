@@ -51,8 +51,6 @@ public class UnoController implements ActionListener {
         handleAITurnIfCurrent();
     }
 
-
-
     /**
      * Handles what happens when the player clicks on a card they want to play
      * checks if the card can be played on the current top card,
@@ -69,8 +67,6 @@ public class UnoController implements ActionListener {
             JOptionPane.showMessageDialog(null, "Your turn is complete! Click on the next player button.");
             return;
         }
-
-        Card top = model.getTopCard();
 
         boolean success = model.tryPlayCard(heldCard);
         if (!success) {
@@ -135,7 +131,6 @@ public class UnoController implements ActionListener {
         updateView();
     }
 
-
     /**
      * handles all button events in the GUI
      * and responds accordingly
@@ -190,22 +185,19 @@ public class UnoController implements ActionListener {
 
             if (model.getCurrentPlayer().getHand().size() == 1 && !model.getCurrentPlayer().UNOClicked) {
                 JOptionPane.showMessageDialog(null,
-                        "You had 'uno' card and didn't click UNO before ending your turn! draw 2 :P");
+                        "You had 'UNO' card and didn't click UNO before ending your turn! draw 2 cards ! :P");
                 onDrawClicked();
                 onDrawClicked();
             }
-
             // End current player's turn and move to next player
             model.setTurnCompleted(false);
             model.playerTurn();
             viewFrame.scoreLabel.setText("Score: " + model.scores.get(model.getCurrentPlayer()));
             updateView();
 
-            // 🔹 If the new current player is AI, let it play right away
+            // If the new current player is AI, let it play right away
             handleAITurnIfCurrent();
         }
-
-
 
 
         else if (source == viewFrame.UNOButton) {
@@ -221,11 +213,6 @@ public class UnoController implements ActionListener {
             }
 
         }
-
-
-
-
-
     }
 
     /**
@@ -262,7 +249,6 @@ public class UnoController implements ActionListener {
             return;
         }
         //added a delay to really make it seem like you're playing against an AI model
-
         try {
             Thread.sleep(1500);
 
@@ -275,9 +261,6 @@ public class UnoController implements ActionListener {
 
         // Let the AI take its turn
         Card played = model.handleAIPlayer(ai);
-
-        //ai turn is completed
-        model.setTurnCompleted(true);
         updateView();
 
         if (played != null) {
@@ -286,16 +269,14 @@ public class UnoController implements ActionListener {
             viewFrame.showMessage(current.getName() + " drew a card.");
         }
 
-        Player after =  model.getCurrentPlayer();
-        if(after == before){
-            model.setTurnCompleted(false);
-            model.playerTurn();
-            updateView();
-        }
-
-        Player next = model.getCurrentPlayer();
-        if(next instanceof AIPlayer){
+        //if ai still has the turn for example playing a SKIP_ALL CARD
+        if(model.getCurrentPlayer() == before && !model.isTurnCompleted()) {
+            model.setTurnCompleted(false); //AI keeps playing
             handleAITurnIfCurrent();
+            return;
+        }
+        if (model.getCurrentPlayer() instanceof AIPlayer){
+                handleAITurnIfCurrent();
         }
 
     }
