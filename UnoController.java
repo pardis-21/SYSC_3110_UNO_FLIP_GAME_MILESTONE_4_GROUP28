@@ -181,12 +181,12 @@ public class UnoController implements ActionListener {
                 viewFrame.showMessage("You have to draw cards until you get a "
                         + model.getTopCard().getCardDarkColour() + " card!");
                 return;
+
             }
             else if (!model.isTurnCompleted()) {
                 viewFrame.showMessage("You must play or draw before ending your turn!");
                 return;
             }
-
             if (model.getCurrentPlayer().getHand().size() == 1 && !model.getCurrentPlayer().UNOClicked) {
                 JOptionPane.showMessageDialog(null,
                         "You had 'uno' card and didn't click UNO before ending your turn! draw 2 :P");

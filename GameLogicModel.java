@@ -519,6 +519,7 @@ public class GameLogicModel {
                     playerTurn(); // skip this player
                     for(int i = 0; i<5; i++) {//draw 5 cards
                         playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
+                        drawPile.remove(0);
                     }
                     JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 5 cards and been skipped!");
                     playerTurn();
@@ -557,16 +558,16 @@ public class GameLogicModel {
 
         for (Player player : playerOrder.getAllPlayersToArrayList()) {
             for (Card card : player.getHand()) {
-                card.lightMode = !card.lightMode;
+                card.lightMode = lightMode;
             }
         }
 
         for (Card card : drawPile) {
-            card.lightMode = !card.lightMode;
+            card.lightMode = lightMode;
         }
 
         for (Card card : discardPile) {
-            card.lightMode = !card.lightMode;
+            card.lightMode = lightMode;
         }
     }
 
