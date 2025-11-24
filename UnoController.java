@@ -195,7 +195,8 @@ public class UnoController implements ActionListener {
             }
             // End current player's turn and move to next player
             model.setTurnCompleted(false);
-            model.playerTurn();
+            //model.playerTurn();
+            //model.setTurnCompleted(false);
             viewFrame.scoreLabel.setText("Score: " + model.scores.get(model.getCurrentPlayer()));
             updateView();
 

@@ -167,8 +167,6 @@ public class GameLogicModel {
                 playerTurn(); // skip this player
                 //JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has been skipped!");
 
-                playerTurn();
-
             } else if (card.getCardLightType().equals(Card.LightType.WILD_DRAW2)) {
                 playerOrder.getCurrentPlayer().getHand().remove(card);
                 playerTurn();
@@ -407,14 +405,15 @@ public class GameLogicModel {
                     //adds the drawed card into its hand
                     ai.getHand().add(drawn);
                     JOptionPane.showMessageDialog(null, ai.getName() + " has drawn a card!");
-                    //setTurnCompleted(true);
-                    //playerTurn();
+
 
 
                 }
-                //ending ai turn and going to next player
-                //setTurnCompleted(true);
+                setTurnCompleted(true);
                 playerTurn();
+                //ending ai turn and going to next player
+                setTurnCompleted(false);
+                //playerTurn();
                 return chosenCard;
             }
 
@@ -438,6 +437,7 @@ public class GameLogicModel {
             // tryPlayCard(chosenCard);
             setTurnCompleted(true);
             playerTurn();
+            setTurnCompleted(false);
 
             if (lightMode) {
                 Card.LightType lightType = chosenCard.getCardLightType();
@@ -503,30 +503,32 @@ public class GameLogicModel {
                     direction = !direction;
                   //  playerOrder.getCurrentPlayer().getHand().remove(card);
                     playerTurn();
-                    if (playerOrder.numPlayers == 2) {
+                    if (numPlayers == 2) {
                         playerTurn();
                     }
                     break;
 
                 case SKIP:
                   //  playerOrder.getCurrentPlayer().getHand().remove(card);
+
                     playerTurn(); // skip this player
                     JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has been skipped!");
 
-                    playerTurn();
+                    //playerTurn();
                     break;
 
                 case DRAW_ONE:
                    // playerOrder.getCurrentPlayer().getHand().remove(card);
-
+                    setTurnCompleted(true);
                     playerTurn();
                     if(!drawPile.isEmpty()) {
                         playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
                         drawPile.remove(0);
+
                     }
                     JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 1 card and been skipped!");
 
-                    playerTurn();
+                    //playerTurn();
                     break;
 
                 case WILD_DRAW2:
@@ -539,7 +541,7 @@ public class GameLogicModel {
                     //playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
                    // drawPile.remove(0);
 
-                   // JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 2 cards and been skipped!");
+                   JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 2 cards and been skipped!");
 
                     playerTurn();
                     break;
@@ -548,6 +550,8 @@ public class GameLogicModel {
                     //playerOrder.getCurrentPlayer().getHand().remove(card);
                     flipSide();
                     playerTurn();
+                    break;
+                default:
                     break;
 
             }
@@ -560,7 +564,7 @@ public class GameLogicModel {
                 case REVERSE:
                     direction = !direction;
                     playerTurn();
-                    if (playerOrder.numPlayers == 2) {
+                    if (numPlayers == 2) {
                         playerTurn();
                     }
                     break;
@@ -587,7 +591,7 @@ public class GameLogicModel {
                     //for (int i = 0; i<playerOrder.getAllPlayersToArrayList().size(); i++){
                         //playerTurn();
                     //}
-                    //JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has skipped all other players!");
+                    JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has skipped all other players!");
                     setTurnCompleted(false); //player plays again
                     break;
 
@@ -610,6 +614,9 @@ public class GameLogicModel {
                    // playerOrder.getCurrentPlayer().getHand().remove(card);
                     flipSide();
                     playerTurn();
+                    break;
+
+                default:
                     break;
             }
         }
