@@ -66,7 +66,7 @@ public class GameLogicModel {
      * the first discard card is not a special card.
      */
     //at the beginning of the game, each player is dealt 7 cards
-    private void dealCardsBeginning(){
+    public void dealCardsBeginning(){
         for (Player player : playerOrder.getAllPlayersToArrayList()) {
             while (player.getHand().size() < SEVEN) {
                 player.getHand().add(drawPile.get(0));
@@ -295,6 +295,11 @@ public class GameLogicModel {
         return direction;
     }
 
+    public boolean setDirection(boolean direction){
+        this.direction = direction;
+        return direction;
+    }
+
     /**
      * Sets the player order and ensures all players exist in the score map.
      *
@@ -489,7 +494,7 @@ public class GameLogicModel {
         return true;
     }
 
-    private void applyCardEffect(Card card) {
+    public void applyCardEffect(Card card) {
 
         if (lightMode) {
             switch (card.getCardLightType()) {
@@ -638,7 +643,6 @@ public class GameLogicModel {
 
     }
 
-
     /**
      * handle ai player
      */
@@ -699,7 +703,6 @@ public class GameLogicModel {
             return drawPile.get(0);
         }
     }
-
 
     public PlayerOrder getPlayerOrder(){
         return playerOrder;

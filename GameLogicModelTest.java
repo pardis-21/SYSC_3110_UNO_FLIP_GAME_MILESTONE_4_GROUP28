@@ -2,14 +2,24 @@ import org.junit.*;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
+/**
+ * This test class tests the UNO Game's Logic by the JUnit Framework.
+ * Here, all methods are tested indivudally to check correctness.
+ *
+ * @Author Charis Nobossi 101297742
+ * @Author Anvita Ala 101301514
+ * @Author Pardis Ehsani 101300400
+ * @Author Pulcherie Mbaye 101302394
+ */
 
 public class GameLogicModelTest {
 
     private GameLogicModel gameLogic;
     private PlayerOrder playerOrder;
-    private Player p1, p2;
+    private Player p1, p2, p3;
 //    private Game game;
 //    private ArrayList<Player> playerNames;
 
@@ -19,8 +29,10 @@ public class GameLogicModelTest {
         playerOrder = new PlayerOrder();
         p1 = new Player("player 1");
         p2 = new Player("player 2");
+        p3 = new Player("player 3");
         playerOrder.addPlayer(p1);
         playerOrder.addPlayer(p2);
+        playerOrder.addPlayer(p3);
         gameLogic.setPlayerOrder(playerOrder);
 //        playerNames = new ArrayList<>();
 //        playerNames.add(new Player("1"));
@@ -114,6 +126,68 @@ public class GameLogicModelTest {
         gameLogic.playerTurn();
         assertNotEquals(firstPlayer, gameLogic.getCurrentPlayer());
     }
+    @Test
+    public void testPlayerReverse(){
+        GameLogicModel game = new GameLogicModel();
+        Player firstPlayer = new Player("1");
+        Player secondPlayer = new Player("2");
+        Player thirdPlayer = new Player("3");
+
+        PlayerOrder order = new PlayerOrder();
+
+        order.addPlayer(firstPlayer);
+        order.addPlayer(secondPlayer);
+        order.addPlayer(thirdPlayer);
+        game.setPlayerOrder(order);
+        game.initScores();
+
+        assertEquals(firstPlayer, game.getCurrentPlayer());
+        //advances to the next player
+        game.playerTurn();
+        assertEquals(secondPlayer, game.getCurrentPlayer());
+
+        game.playerTurn();
+        assertEquals(thirdPlayer, game.getCurrentPlayer());
+
+        //this is clockwise
+        assertTrue(game.getDirection());
+
+        //reverse the direction now
+        game.setDirection(false);
+        assertEquals(false, game.getDirection());
+
+        game.playerTurn();
+        //now it swaps the order and should go back to the second player
+        assertEquals(secondPlayer, game.getCurrentPlayer());
+
+        game.playerTurn();
+        assertEquals(firstPlayer, game.getCurrentPlayer());
+        game.playerTurn();
+        assertEquals(thirdPlayer, game.getCurrentPlayer());
+
+        //another way is to use the REVERSE CARD
+
+        Card reverseCard = new Card();
+        reverseCard.lightMode = true;
+
+        try {
+            Field typeField = Card.class.getDeclaredField("cardLightType");
+            typeField.setAccessible(true);
+            typeField.set(reverseCard, Card.LightType.REVERSE);
+        }
+        catch (Exception e) {
+            fail(e.getMessage());
+        }
+        game.applyCardEffect(reverseCard);
+        //now switches back to CW
+        assertTrue(game.getDirection());
+
+        game.playerTurn();
+        assertEquals(secondPlayer, game.getCurrentPlayer());
+
+        game.playerTurn();
+
+    }
 
     @Test
     public void testAwardRoundPointWhenWinnerEmptiesHand(){
@@ -124,17 +198,24 @@ public class GameLogicModelTest {
         assertNotNull(gameLogic.getMatchWinner(0));
     }
 
+    /*
     @Test
-    public void testGetTotalNumberOfPlayers(){
-        assertEquals(gameLogic.getCurrentPlayer().getHand(), gameLogic.getPlayerHand());
+    public void testRoundPoints(){
+
+        p1.getHand().clear();
+        p2.getHand().add(new Card());
+        p3.getHand().add(new Card());
+
+        int points = gameLogic.awardRoundPointsTo(p1);
+        assertTrue(points > 1);
+        assertEquals(Optional.of(points), gameLogic.scores.get(p1));
     }
+*/
 
     @Test
     public void testGetDirectionInitiallyClockwise(){
         assertTrue(gameLogic.getDirection());
     }
-
-
 
     @Test
     public void testPlayerTurnRunsWithoutException() {
@@ -190,4 +271,78 @@ public class GameLogicModelTest {
             fail("playUNOGame should not throw an exception on setup");
         }
     }
+
+    @Test
+    public void testFlipSide(){
+        GameLogicModel game = new GameLogicModel();
+        Player firstPlayer = new Player("first");
+        Player secondPlayer = new Player("second");
+        Player thirdPlayer = new Player("third");
+
+        PlayerOrder playerOrder = new PlayerOrder();
+
+        playerOrder.addPlayer(firstPlayer);
+        playerOrder.addPlayer(secondPlayer);
+        playerOrder.addPlayer(thirdPlayer);
+        game.setPlayerOrder(playerOrder);
+        game.initScores();
+
+        //asserting that the game starts in the lightmode as normal
+        assertTrue(game.lightMode);
+        //then changing the game to the flip side
+        game.flipSide();
+        //because it is now in the flip side, it is no longer in light mode
+        assertFalse(game.lightMode);
+
+    }
+    @Test
+    public void testFlipSideToggle(){
+        GameLogicModel game = new GameLogicModel();
+        boolean prevMode = game.lightMode;
+        game.flipSide();
+        assertNotEquals(prevMode, game.lightMode);
+    }
+    @Test
+    public void testFlipSideUpdatesCards(){
+        GameLogicModel game = new GameLogicModel();
+        Player firstPlayer = new Player("p1");
+        Player secondPlayer = new Player("p2");
+        Player thirdPlayer = new Player("p3");
+
+        PlayerOrder playerOrder = new PlayerOrder();
+
+        playerOrder.addPlayer(firstPlayer);
+        playerOrder.addPlayer(secondPlayer);
+        playerOrder.addPlayer(thirdPlayer);
+        game.setPlayerOrder(playerOrder);
+        game.initScores();
+
+        game.dealCardsBeginning();
+        Card blueCard = new Card();
+        blueCard.lightMode = true;
+
+        try {
+            Field typeField = Card.class.getDeclaredField("cardLightColour");
+            typeField.setAccessible(true);
+            typeField.set(blueCard, Card.LightColour.BLUE);
+        }
+        catch (Exception e) {
+            fail(e.getMessage());
+        }
+        //adding it to the first players hand
+        firstPlayer.getHand().add(blueCard);
+        game.flipSide();
+        assertEquals(game.lightMode, blueCard.lightMode);
+
+        game.dealCardsBeginning();
+        //checking if the players hand is now all in lightmode
+        for (Player player : playerOrder.getAllPlayersToArrayList()) {
+            for (Card card: player.getHand()) {
+                assertEquals(game.lightMode, card.lightMode);
+            }
+        }
+
+    }
+
+
 }

@@ -9,6 +9,7 @@ import java.util.List;
  * @Author Anvita Ala 101301514
  * @Author Charis Nobossi 101297742
  * @Author Pulcherie Mbaye 101302394
+ * @Author Pardis Ehsani 101300400
  */
 public class Card {
     private static final Random random = new Random();
