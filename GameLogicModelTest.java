@@ -34,17 +34,7 @@ public class GameLogicModelTest {
         playerOrder.addPlayer(p2);
         playerOrder.addPlayer(p3);
         gameLogic.setPlayerOrder(playerOrder);
-//        playerNames = new ArrayList<>();
-//        playerNames.add(new Player("1"));
-//        playerNames.add(new Player("2"));
-//        playerNames.add(new Player("3"));
 
-        //gameLogic = new GameLogicModel(playerNames);
-
-//        PlayerOrder playerOrder = new PlayerOrder();
-//        playerOrder.addPlayer(playerNames.get(0));
-//        playerOrder.addPlayer(playerNames.get(1));
-//        playerOrder.addPlayer(playerNames.get(2));
     }
 
     @Test

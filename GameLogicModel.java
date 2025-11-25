@@ -153,9 +153,7 @@ public class GameLogicModel {
             if (card.getCardLightType().equals(Card.LightType.REVERSE)) {
                 direction = !direction;
                 playerOrder.getCurrentPlayer().getHand().remove(card);
-                //playerTurn();
                 if (getTotalNumberOfPlayers() == 2) {
-                    //setTurnCompleted(true);
                     playerTurn();
                 }
 
@@ -163,7 +161,6 @@ public class GameLogicModel {
             else if (card.getCardLightType().equals(Card.LightType.SKIP)) {
                 playerOrder.getCurrentPlayer().getHand().remove(card);
                 playerTurn(); // skip this player
-                //JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has been skipped!");
 
             } else if (card.getCardLightType().equals(Card.LightType.WILD_DRAW2)) {
                 playerOrder.getCurrentPlayer().getHand().remove(card);
@@ -224,9 +221,7 @@ public class GameLogicModel {
             }
             //SKIP EVERY PLAYER CARD
             else if (card.getCardDarkType().equals(Card.DarkType.SKIP_ALL)){
-                //for (int i = 0; i<playerOrder.getAllPlayersToArrayList().size(); i++){
-                    //playerTurn();
-                //}
+
                 JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has skipped all other players!");
 
             } else if(card.getCardDarkType().equals(Card.DarkType.WILD_DRAW_COLOUR)){
@@ -380,18 +375,7 @@ public class GameLogicModel {
 
 
             }
-//            if (!exists) {
-//                String isAI = JOptionPane.showInputDialog(null, "is " + playerName + " an AI? (yes/no)");
-//                boolean ai = isAI !=null && isAI.equalsIgnoreCase("yes");
-//                Player player;
-//                if (ai) {
-//                    player = new AIPlayer(playerName + " (AI)");
-//                } else {
-//                    player = new Player(playerName);
-//                }
-//                playerOrder.addPlayer(player);
-//
-//            }
+
         }
 
         initScores();
@@ -409,7 +393,7 @@ public class GameLogicModel {
             Card top = getTopCard();
             Card chosenCard = ai.chooseCardToPlay(top);
 
-            // No playable card → draw
+            // No playable card so draw
             if (chosenCard == null) {
                 //draw a card
                 Card drawn = drawOneorNullCard();
@@ -482,7 +466,12 @@ public class GameLogicModel {
         }
     }
 
-            public void drawCardCurrentPlayer() {
+
+    /**
+     * Draws one card from the draw pile and adds it to the current player's hand.
+     * Marks the player's turn as completed after drawing.
+     */
+    public void drawCardCurrentPlayer() {
        if(!drawPile.isEmpty()){
            getCurrentPlayer().getHand().add(drawPile.get(0));
            drawPile.remove(0);
@@ -537,16 +526,12 @@ public class GameLogicModel {
 
                 case REVERSE:
                     direction = !direction;
-                  //  playerOrder.getCurrentPlayer().getHand().remove(card);
 
-                    //setTurnCompleted(true);
                     playerTurn();
                     if (numPlayers == 2) {
-                        //setTurnCompleted(true);
                         playerTurn();
                     }
                     JOptionPane.showMessageDialog(null, "DIRECTION IS SWITCHED !");
-                    //setTurnCompleted(false);
                     break;
 
                 case SKIP: {
@@ -569,9 +554,6 @@ public class GameLogicModel {
 
 
                 case DRAW_ONE:
-                   // playerOrder.getCurrentPlayer().getHand().remove(card);
-                    //next players draw 1 cards and then is also skipped so it moves onto the next next player
-                    //setTurnCompleted(true);
                     playerTurn(); //skip to the next player
                     if(!drawPile.isEmpty()) {
                         //make the player pick up a card
@@ -580,13 +562,10 @@ public class GameLogicModel {
 
                     }
                     JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 1 card and been skipped!");
-                    //setTurnCompleted(true);
                     playerTurn(); //advance to the next next player
-                    //setTurnCompleted(false);
                     break;
 
                 case WILD_DRAW2:
-                    //setTurnCompleted(true);
                     playerTurn();
                     for(int i = 0;i < 2 && !drawPile.isEmpty(); i++) {
                         playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
@@ -594,13 +573,10 @@ public class GameLogicModel {
                     }
 
                     JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 2 cards and been skipped!");
-                    //setTurnCompleted(true);
                     playerTurn();
-                    //setTurnCompleted(false);
                     break;
 
                 case FLIP_TO_DARK:
-                    //playerOrder.getCurrentPlayer().getHand().remove(card);
                     JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has flipped the game!");
                     flipSide();
                     playerTurn();
@@ -626,7 +602,6 @@ public class GameLogicModel {
                     break;
 
                 case DRAW_FIVE:
-                    //setTurnCompleted(true);
                     playerTurn(); // skip this player
                     for (int i = 0; i < 5; i++) {//draw 5 cards
                         Card drawCard = drawOneorNullCard();
@@ -640,41 +615,27 @@ public class GameLogicModel {
                     //after the cards have been dealt to that one player who had to DRAW FIVE
                     //skip to the next player automatically
 
-                    //setTurnCompleted(true);
                     playerTurn();
-                    //setTurnCompleted(false);
                     break;
 
                 case SKIP_ALL:
                     //DO NOTHING AS ITS AGAIN THE CURRENTS PLAYER TURN
-                    //for (int i = 0; i<playerOrder.getAllPlayersToArrayList().size(); i++){
-                        //playerTurn();
-                    //}
+
                     JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has skipped all other players!");
-                    //setTurnCompleted(false); //player plays again
                     break;
 
                 case WILD_DRAW_COLOUR:
-                   // playerOrder.getCurrentPlayer().getHand().remove(card);
-                    //playerTurn();
                     Player attackedPlayer = playerOrder.getCurrentPlayer();
-                    //checkign to see if the chosencard actually exists and checking to see if its a dark mode card color
                     Card.DarkColour chosenCard = card.getCardDarkColour();
                     if (chosenCard == null){
-                        //if no dark mode card, automatically skip the turn
 
-                        //setTurnCompleted(true);
                         playerTurn();
-                        //setTurnCompleted(false);
                         break;
                     }
-                    //setTurnCompleted(true);
                     playerTurn();
-                    //setTurnCompleted(false);
                     break;
 
                 case FLIP_TO_LIGHT:
-                   // playerOrder.getCurrentPlayer().getHand().remove(card);
                     JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has flipped the game!");
                     flipSide();
                     playerTurn();
@@ -748,6 +709,10 @@ public class GameLogicModel {
         }
     }
 
+    /**
+     * used to return the order of the players
+     * @return the order of the players
+     */
     public PlayerOrder getPlayerOrder(){
         return playerOrder;
     }

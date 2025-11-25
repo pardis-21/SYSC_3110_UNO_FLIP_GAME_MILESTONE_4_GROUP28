@@ -133,9 +133,6 @@ public class UnoViewFrame extends JFrame {
      */
     public void updateHand(List<Card> hand) {
         cardPanel.removeAll();  // clearing the old buttons
-//        if (model.getTopCard().getCardLightType().equals(Card.LightType.FLIP_TO_DARK) || model.getTopCard().getCardDarkType().equals(Card.DarkType.FLIP_TO_LIGHT)){
-//            model.lightMode = !model.lightMode;
-//        }
 
         if (hand != null) {
             for (Card card : hand) {
@@ -166,11 +163,6 @@ public class UnoViewFrame extends JFrame {
             cardPanel.repaint();
         }
     }
-    //public void updateAllPlayerHands(PlayerOrder order){
-      //  for (Player player: order.getAllPlayersToArrayList()){
-        //    updateHand(player.getHand());
-        //}
-    //}
 
     /**
      * updates the top card displayed on the discard pile.
@@ -181,7 +173,7 @@ public class UnoViewFrame extends JFrame {
         if (card == null) return;
         //light mode card
         if (model.lightMode) {
-            String text = card.getCardLightColour() + " " + card.getCardLightType();  // e.g. RED THREE
+            String text = card.getCardLightColour() + " " + card.getCardLightType();
 
             if (card.getCardLightColour() == Card.LightColour.RAINBOW) {
                 String[] options = {"RED", "BLUE", "YELLOW", "GREEN"};
@@ -189,7 +181,7 @@ public class UnoViewFrame extends JFrame {
                         null,
                         "Please choose a colour to set the rainbow:",
                         "Selection", // Title of the dialog
-                        JOptionPane.QUESTION_MESSAGE, // Message type (e.g., QUESTION_MESSAGE, INFORMATION_MESSAGE)
+                        JOptionPane.QUESTION_MESSAGE,
                         null, // Icon (null for default)
                         options, // Array of options for the dropdown
                         options[0] // Default selected option
@@ -205,7 +197,7 @@ public class UnoViewFrame extends JFrame {
             discardPile.setContentAreaFilled(true);
         }
         else{
-            String text = card.getCardDarkColour() + " " + card.getCardDarkType();  // e.g. RED THREE
+            String text = card.getCardDarkColour() + " " + card.getCardDarkType();
 
             if (card.getCardDarkColour() == Card.DarkColour.RAINBOW) {
                 String[] options = {"ORANGE", "TEAL", "PINK", "PURPLE"};
@@ -213,7 +205,7 @@ public class UnoViewFrame extends JFrame {
                         null,
                         "Please choose a colour to set the rainbow:",
                         "Selection", // Title of the dialog
-                        JOptionPane.QUESTION_MESSAGE, // Message type (e.g., QUESTION_MESSAGE, INFORMATION_MESSAGE)
+                        JOptionPane.QUESTION_MESSAGE,
                         null, // Icon (null for default)
                         options, // Array of options for the dropdown
                         options[0] // Default selected option
@@ -275,7 +267,6 @@ public class UnoViewFrame extends JFrame {
      * updates the frame when the model notifies observers that
      * a player's turn has changed.
      */
-    //called by model.notifyObserver()
     private void update(){
         model.playerTurn();
         startGamePlayerButtons();

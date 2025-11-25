@@ -37,8 +37,6 @@ public class UnoController implements ActionListener {
     public void setView(UnoViewFrame viewFrame) {
         this.viewFrame = viewFrame;
         viewFrame.drawPile.addActionListener(this);
-        // frame.UNOButton.addActionListener(this);
-        //viewFrame.updateTopCard(model.getTopCard());
         viewFrame.discardPile.addActionListener(this);
         viewFrame.nextPlayerButton.addActionListener(this);
         viewFrame.UNOButton.addActionListener(this);
@@ -180,7 +178,6 @@ public class UnoController implements ActionListener {
             // End current player's turn and move to next player
             model.setTurnCompleted(false);
             model.playerTurn();
-            //model.setTurnCompleted(false);
             viewFrame.scoreLabel.setText("Score: " + model.scores.get(model.getCurrentPlayer()));
             updateView();
 
@@ -207,14 +204,11 @@ public class UnoController implements ActionListener {
      */
     public void updateView() {
         if (viewFrame != null) {
-            //PlayerOrder playerOrder = new PlayerOrder();
-            //List<Card> hand = model.getPlayerHand();
             viewFrame.updateHand(model.getPlayerHand());
             viewFrame.updateTopCard(model.getTopCard());
             viewFrame.currentPlayerName.setText(model.getCurrentPlayer().getName());
             if ((!model.lightMode && model.getTopCard().getCardLightType().equals(Card.LightType.FLIP_TO_DARK)) ||
                     (model.lightMode && model.getTopCard().getCardDarkType().equals(Card.DarkType.FLIP_TO_LIGHT))) {
-                //viewFrame.updateAllPlayerHands(model.getPlayerOrder());
             }
         }
     }
@@ -227,6 +221,12 @@ public class UnoController implements ActionListener {
         return model.getCurrentPlayer().getHand();
     }
 
+
+    /**
+     * Handles the AI player's turn if the current player is an AI.
+     * Adds a short delay, lets the AI choose and play (or draw) a card,
+     * shows a message about the action, and updates the game view.
+     */
     private void handleAITurnIfCurrent() {
 
         Player currentPlayer = model.getCurrentPlayer();
