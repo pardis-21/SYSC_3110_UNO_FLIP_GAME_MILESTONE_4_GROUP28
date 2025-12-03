@@ -1,5 +1,5 @@
 ---------------------------------------------------------------------------------------------------------------------------------------
-                                                            GROUP 28 - UNO FLIP GAME
+                                                 GROUP 28 - UNO FLIP GAME
 ----------------------------------------------------------------------------------------------------------------------------------------
 SYSC 3110 Project Overview Milestone 3 UNO: 
 This milestone is continuing on from the previous milestone, but instead, its implementing an AI Player feature and a FLIP Mode. 
