@@ -22,6 +22,9 @@ public class UnoViewFrame extends JFrame {
     public JPanel scorePanel; // panel for the player's score
     public JPanel roundPanel;
     public JLabel scoreLabel;
+    //making a top panel with both the score and the round cuz i want it to be cleaner
+    public JPanel topPanel;
+
     public JButton nextPlayerButton;
     //private ArrayList<Player> playerNames;
     private final GameLogicModel model;
@@ -69,6 +72,7 @@ public class UnoViewFrame extends JFrame {
         cardPanel = new JPanel(); // display the players cards
         decksPanel = new JPanel();
         scorePanel = new JPanel(); // display score
+        topPanel = new JPanel(); //top panel
         discardPile = new JButton(); //shows top card on discard pile
         roundPanel = new JPanel(); //shows the round panel and should be above the score
         drawPile = new JButton("DRAW"); //pile to take a card
@@ -82,14 +86,32 @@ public class UnoViewFrame extends JFrame {
         drawPile.setBackground(Color.GRAY);
         drawPile.setForeground(Color.BLACK);
 
-        //SETTING UP THE ROUND PANEL
+        //ADDING A ROUND LABEL AT THE TOP TO INDICATE WHICH ROUND WERE AT
+        JLabel roundLabel = new JLabel("Round: " + roundNumber);
+        roundLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        roundLabel.setForeground(Color.BLACK);
+        roundLabel.setBackground(Color.WHITE);
+        roundNumber = 1;
 
+        //SETTING UP THE ROUND PANEL
+        roundPanel.setLayout(new FlowLayout());
+        roundPanel.add(roundLabel);
 
         //SETTING UP SCORE PANEL
         scoreLabel = new JLabel("Score: 0");
         scoreLabel.setForeground(Color.BLACK);
         scorePanel.setBackground(new Color(30, 120,60));
         scorePanel.add(scoreLabel);
+
+        //SETTING THE TOP PANEL WITH BOTH SCOREPANEL AND ROUNDPANEL
+        topPanel.setBackground(new Color(30, 120,60));
+        topPanel.setPreferredSize(new Dimension(150, 150));
+        topPanel.setLayout(new BorderLayout());
+        topPanel.add(roundPanel, BorderLayout.NORTH);
+        topPanel.add(scorePanel, BorderLayout.SOUTH);
+
+
+
 
         // TESTING RANDOM CARD FOR DISCARD PILE
         Card topCard = new Card();
@@ -125,13 +147,10 @@ public class UnoViewFrame extends JFrame {
         // ADDING THE LAYOUT TO THE JFRAME
         this.add(decksPanel, BorderLayout.CENTER);
         this.add(cardPanel, BorderLayout.SOUTH);
-        this.add(scorePanel, BorderLayout.NORTH);
         this.add(currentPlayerName, BorderLayout.EAST);
         this.add(nextPlayerButton, BorderLayout.WEST);
+        this.add(topPanel, BorderLayout.NORTH);
 
-//        roundPanel.setLayout(new GridBagLayout());
-//        roundPanel.add(roundLabel);
-//        this.add(roundPanel, BorderLayout.NORTH);
 
 
         // WHEN LAYER PRESSESS NEWCARD BUTTON, ONE RANDOM CARD IS ADDED TO THEIR HAND
@@ -155,12 +174,6 @@ public class UnoViewFrame extends JFrame {
         undoButton.setBackground(Color.WHITE);
         redoButton.setBackground(Color.WHITE);
 
-        //ADDING A ROUND LABEL AT THE TOP TO INDICATE WHICH ROUND WERE AT
-        JLabel roundLabel = new JLabel("Round: " + roundNumber);
-        roundLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        roundLabel.setForeground(Color.BLACK);
-        roundLabel.setBackground(Color.WHITE);
-        roundNumber = 1;
 
 
     }
