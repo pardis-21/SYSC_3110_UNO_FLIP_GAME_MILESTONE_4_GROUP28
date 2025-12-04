@@ -100,15 +100,15 @@ public class UnoViewFrame extends JFrame {
         //SETTING UP SCORE PANEL
         scoreLabel = new JLabel("Score: 0");
         scoreLabel.setForeground(Color.BLACK);
-        scorePanel.setBackground(new Color(30, 120,60));
+        scorePanel.setBackground(new Color(153, 255,255));
         scorePanel.add(scoreLabel);
 
         //SETTING THE TOP PANEL WITH BOTH SCOREPANEL AND ROUNDPANEL
         topPanel.setBackground(new Color(30, 120,60));
-        topPanel.setPreferredSize(new Dimension(150, 150));
+        topPanel.setPreferredSize(new Dimension(150, 60));
         topPanel.setLayout(new BorderLayout());
         topPanel.add(roundPanel, BorderLayout.NORTH);
-        topPanel.add(scorePanel, BorderLayout.SOUTH);
+        topPanel.add(scorePanel, BorderLayout.CENTER);
 
 
 
