@@ -24,6 +24,10 @@ public class GameLogicModel {
     private int numPlayers = 0;
     public boolean lightMode = true;
 
+    //for the SAVING SNAP SHOT (working on this)
+    private Deque<UNOGameStateSnapShot> undoStateSnapShot;
+    private Deque<UNOGameStateSnapShot> redoStateSnapShot;
+
 
     /**
      * Constructs a new GameLogic instance and initializes players, draw pile,
@@ -31,6 +35,11 @@ public class GameLogicModel {
      *
      */
     public GameLogicModel() {
+        //saving snap shot
+        this.redoStateSnapShot = new ArrayDeque<>();
+        this.undoStateSnapShot = new ArrayDeque<>();
+
+
         //instance of that class
         playerOrder = new PlayerOrder();
         discardPile = new ArrayList<>();
@@ -648,6 +657,8 @@ public class GameLogicModel {
 
     }
 
+
+
     /**
      * handle ai player
      */
@@ -733,5 +744,26 @@ public class GameLogicModel {
     public PlayerOrder getPlayerOrder(){
         return playerOrder;
     }
+
+    //SAVING SNAP SHOTS BUT ALSO ITS IMPLEMENTED IN A SEPERATE CLASS BECAUSE THIS MODEL IS GETTING WAY TOO LONG
+    private UNOGameStateSnapShot createUNOGameStateSnapShot(){
+        return new UNOGameStateSnapShot(playerOrder.getAllPlayersToArrayList(), new ArrayList<Card>(drawPile), new ArrayList<Card>(discardPile), lightMode, playerOrder.getCurrentPlayer(), getDirection());
+    }
+    //SAVING THE SNAPSHOT
+    public void saveSnateSnapShot(){
+        undoStateSnapShot.push(createUNOGameStateSnapShot());
+        redoStateSnapShot.clear();
+    }
+
+    public void restoreStateSnapShot(UNOGameStateSnapShot restoredSnapShot){
+        //setPlayerOrder(restoredSnapShot);
+        //drawPile = restoredSnapShot.drawpile
+        //discardPile = restoredSnapShot
+        lightMode = restoredSnapShot.lightMode;
+        //direction = restoredSnapShot.directino
+        //playerOrder.setCurrentPlayer(restoredSnapShot.player)
+    }
+
+
 
 }
