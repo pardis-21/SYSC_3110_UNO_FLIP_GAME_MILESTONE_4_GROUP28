@@ -12,7 +12,7 @@ public class PlayerCardCommand implements UNOCommand{
         this.currentPlayer = player;
         this.currentTopCard = cardPlayed;
         this.prevoiusTopCard = previousCard;
-        //this.previousCurrentPlayer = player;
+        this.previousCurrentPlayer = model.getCurrentPlayer();
     }
 
 
@@ -32,22 +32,24 @@ public class PlayerCardCommand implements UNOCommand{
 
             gameLogicModel.getCurrentPlayer();
         }
-        //gameLogicModel.setCurrentPlayer(previousCurrentPlayer);
+
+        gameLogicModel.setCurrentPlayer(previousCurrentPlayer);
        // gameLogicModel.notify();
+        gameLogicModel.setTurnCompleted(false); //player must play again
     }
     public void redoAction(){
 
         previousCurrentPlayer.getHand().remove(currentTopCard);
 
         if (prevoiusTopCard != null && gameLogicModel.getDiscardPile().isEmpty() && gameLogicModel.getDiscardPile().get(0) == currentTopCard) {
-
             gameLogicModel.getDiscardPile().remove(0); //remove the top card
         }
         //gameLogicModel.setTopCard(currentTopCard);
         //gameLogicModel.setCurrentPlayer(previousCurrentPlayer);
         gameLogicModel.getDiscardPile().add(0, currentTopCard); //put the card back on the discard pile at the top
         //advance to the next player
-        //gameLogicModel.playerTurn();
+        gameLogicModel.playerTurn();
+        gameLogicModel.setTurnCompleted(true);
         //gameLogicModel.notify();
     }
 }
