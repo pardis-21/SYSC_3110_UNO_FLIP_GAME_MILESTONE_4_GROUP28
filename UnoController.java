@@ -89,8 +89,13 @@ public class UnoController implements ActionListener {
 
         if(model.getCurrentPlayer().getHand().isEmpty()){
             int points = model.awardRoundPointsTo(model.getCurrentPlayer());
-            JOptionPane.showMessageDialog(null, "Player " + model.getCurrentPlayer().getName() + " wins the round with " + points + " points!!" );
-            viewFrame.scoreLabel.setText("Score: " + model.scores.get(model.getCurrentPlayer()));
+            JOptionPane.showMessageDialog(null, "Player: " + model.getCurrentPlayer().getName() + " wins the round with: " + points + " points!!" +
+                    "\n + Total Points: " + model.scores.get(model.getCurrentPlayer()) + "\n Round Over!");
+
+            //viewFrame.scoreLabel.setText("Score: " + model.scores.get(model.getCurrentPlayer()));
+
+            Player playerWinner = model.getMatchWinner(500);
+            boolean isGameOver = playerWinner != null;
 
             String[] options = {"New game","New round", "Exit"};
                 Object selectedOption = JOptionPane.showInputDialog(
@@ -102,7 +107,7 @@ public class UnoController implements ActionListener {
                         options, // Array of options for the dropdown
                         options[0] // Default selected option
                 );
-            if(("Exit").equals(options[2])){
+            if(("Exit").equals(selectedOption)){
                 JOptionPane.showMessageDialog(null, "Thanks for playing! \nExiting...");
                 System.exit(0);
             }

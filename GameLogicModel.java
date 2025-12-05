@@ -40,23 +40,27 @@ public class GameLogicModel {
         this.redoStateSnapShot = new ArrayDeque<>();
         this.undoStateSnapShot = new ArrayDeque<>();
 
-
         //instance of that class
         playerOrder = new PlayerOrder();
         discardPile = new ArrayList<>();
 
         // for future use flipPile = new ArrayList<>();
-
-        //populating the cards with a card to make a deck (108 cards)
         drawPile = new ArrayList<>();
-        for (int i = 0; i < 108; i++){
-            drawPile.add(new Card());
-        }
+
+        createDeckofCards();
         //shuffling cards for randomness
         Collections.shuffle(drawPile);
 
         //assuming by UNO rules that all players have same age and starting from CW direction
         direction = true; //clockwise direction
+    }
+
+    public ArrayList<Card> createDeckofCards(){
+        //populating the cards with a card to make a deck (108 cards)
+        for (int i = 0; i < 108; i++){
+            drawPile.add(new Card());
+        }
+        return drawPile;
     }
 
 
@@ -75,8 +79,11 @@ public class GameLogicModel {
      */
     //at the beginning of the game, each player is dealt 7 cards
     public void dealCardsBeginning(){
+        if (drawPile.isEmpty()) return;
+
         for (Player player : playerOrder.getAllPlayersToArrayList()) {
             while (player.getHand().size() < SEVEN) {
+                if (drawPile.isEmpty()) break;
                 player.getHand().add(drawPile.get(0));
                 drawPile.remove(0);
             }
@@ -806,6 +813,22 @@ public class GameLogicModel {
     }
 
     public void startNewRound() {
+        //starting the new round and clearing eveyrthing
+        discardPile.clear();
+        drawPile.clear();
+
+        //now resetting all players in the groups hand
+        for (Player player : playerOrder.getAllPlayersToArrayList()) {
+            player.clearHand();
+        }
+
+        //draw pile rebuilt
+        drawPile.addAll(discardPile);
+        Collections.shuffle(discardPile);
+
+        Collections.shuffle(drawPile);
+
+        dealCardsBeginning();
 
     }
 
