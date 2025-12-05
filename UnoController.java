@@ -120,7 +120,9 @@ public class UnoController implements ActionListener {
                 JOptionPane.showMessageDialog(null, "New round started!");
 
             }
+            //updateHand();
             updateView();
+
             return;
         }
         handleAITurnIfCurrent();
@@ -212,12 +214,20 @@ public class UnoController implements ActionListener {
                 JOptionPane.showMessageDialog(null, "UNOOOOO!!!");
                 model.getCurrentPlayer().UNOClicked = true;
             }
-        } else if (source == viewFrame.undoButton) {
+        }
+        else if (source == viewFrame.undoButton) {
             // TESTING SOMETHING OUT
             if (commandManager.isUndoable()){
                 commandManager.undo();
+                viewFrame.updateHand(model.getPlayerHand());
+                viewFrame.updateTopCard(model.getTopCard());
+                viewFrame.repaint();
+                viewFrame.revalidate();
+
                 updateView();
                 model.setTurnCompleted(false); //do not move to the next player
+                //viewFrame.showMessage("Undid Last Move");
+                JOptionPane.showMessageDialog(null, "Undid your last move!");
             }
             else {
                 JOptionPane.showMessageDialog(null, "You nothing to undo!");
@@ -226,8 +236,14 @@ public class UnoController implements ActionListener {
         else if (source == viewFrame.redoButton) {
             if (commandManager.isRedoable()){
                 commandManager.redo();
+                viewFrame.updateHand(model.getPlayerHand());
+                viewFrame.updateTopCard(model.getTopCard());
+                viewFrame.repaint();
+                viewFrame.revalidate();
                 updateView();
-                model.setTurnCompleted(false);
+                model.setTurnCompleted(true);
+                JOptionPane.showMessageDialog(null, "You redoed your last move!");
+
             }
             else {
                 JOptionPane.showMessageDialog(null, "You nothing to redo!");
@@ -245,9 +261,13 @@ public class UnoController implements ActionListener {
             viewFrame.updateHand(model.getPlayerHand());
             viewFrame.updateTopCard(model.getTopCard());
             viewFrame.roundLabel.setText("Round number: " + roundNumber);
+
             viewFrame.undoButton.setEnabled(commandManager.isUndoable());
             viewFrame.redoButton.setEnabled(commandManager.isRedoable());
-            viewFrame.currentPlayerName.setText(model.getCurrentPlayer().getName());
+            viewFrame.repaint();
+            viewFrame.revalidate();
+
+            viewFrame.currentPlayerLabel.setText(model.getCurrentPlayer().getName());
             if ((!model.lightMode && model.getTopCard().getCardLightType().equals(Card.LightType.FLIP_TO_DARK)) ||
                     (model.lightMode && model.getTopCard().getCardDarkType().equals(Card.DarkType.FLIP_TO_LIGHT))) {
             }

@@ -7,12 +7,12 @@ public class PlayerCardCommand implements UNOCommand{
     private Player previousCurrentPlayer;
 
 
-    public PlayerCardCommand(GameLogicModel model, Player player, Card cardPlayer, Card previousCard) {
+    public PlayerCardCommand(GameLogicModel model, Player player, Card cardPlayed, Card previousCard) {
         this.gameLogicModel = model;
         this.currentPlayer = player;
-        this.currentTopCard = cardPlayer;
+        this.currentTopCard = cardPlayed;
         this.prevoiusTopCard = previousCard;
-        this.previousCurrentPlayer = player;
+        //this.previousCurrentPlayer = player;
     }
 
 
@@ -27,8 +27,13 @@ public class PlayerCardCommand implements UNOCommand{
             gameLogicModel.setTopCard(prevoiusTopCard);
             gameLogicModel.getDiscardPile().add(prevoiusTopCard);
         }
+        else {
+            //idk if this is right
+            gameLogicModel.setTopCard(currentTopCard);
+        }
 
-        gameLogicModel.setCurrentPlayer(previousCurrentPlayer);
+        //gameLogicModel.setCurrentPlayer(previousCurrentPlayer);
+
 
         gameLogicModel.notify();
 
@@ -36,11 +41,13 @@ public class PlayerCardCommand implements UNOCommand{
     }
     public void redoAction(){
 
-        previousCurrentPlayer.getHand().remove(prevoiusTopCard);
+        previousCurrentPlayer.getHand().remove(currentTopCard);
 
-        gameLogicModel.getDiscardPile().remove(prevoiusTopCard);
+        if (prevoiusTopCard != null) {
+            gameLogicModel.getDiscardPile().removeLast();
+        }
         gameLogicModel.setTopCard(currentTopCard);
-        gameLogicModel.setCurrentPlayer(previousCurrentPlayer);
+        //gameLogicModel.setCurrentPlayer(previousCurrentPlayer);
         gameLogicModel.getDiscardPile().add(currentTopCard);
         //advance to the next player
         gameLogicModel.playerTurn();
