@@ -803,6 +803,23 @@ public class GameLogicModel {
         resetRound();
     }
 
+    public ArrayList<Card> getDiscardPile() {
+        return discardPile;
+
+    }
+
+    public void setTopCard(Card prevoiusTopCard) {
+        discardPile.add(prevoiusTopCard);
+    }
+
+    public void setCurrentPlayer(Player previousCurrentPlayer) {
+        playerOrder.setCurrentPlayer(previousCurrentPlayer);
+    }
+
+    public void startNewRound() {
+
+    }
+
 //    public String getCurrentRoundNumber() {
 //        //UnoViewFrame view = new UnoViewFrame()
 //

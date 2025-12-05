@@ -26,8 +26,6 @@ public class Game {
 
             UnoController controller = new UnoController(model);
 
-            
-
             view.setController(controller);
             controller.setView(view);
         }

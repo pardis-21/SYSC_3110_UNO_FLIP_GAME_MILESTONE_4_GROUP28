@@ -21,6 +21,7 @@ public class UnoController implements ActionListener {
     private final GameLogicModel model;
     private JLabel roundLabel;
     private int roundNumber;
+    private UNOCommandManager commandManager;
 
     /**
      * Constructs a new controller with the given model
@@ -30,6 +31,7 @@ public class UnoController implements ActionListener {
     public UnoController(GameLogicModel model) {
         this.model = model;
         this.roundNumber = 1;
+        commandManager = new UNOCommandManager();
     }
 
     /**
@@ -69,6 +71,9 @@ public class UnoController implements ActionListener {
             return;
         }
 
+        Card previousTopCard = model.getTopCard();
+        int previousPlayerHandSize = model.getCurrentPlayer().getHand().size();
+
         boolean success = model.tryPlayCard(heldCard);
         if (!success) {
             viewFrame.showMessage(
@@ -76,6 +81,8 @@ public class UnoController implements ActionListener {
             );
             return;
         }
+
+        commandManager.push(new PlayerCardCommand(model, model.getCurrentPlayer(), heldCard, previousTopCard));
         updateView();
         model.setTurnCompleted(true);
 
@@ -84,7 +91,7 @@ public class UnoController implements ActionListener {
             JOptionPane.showMessageDialog(null, "Player " + model.getCurrentPlayer().getName() + " wins the round with " + points + " points!!" );
             viewFrame.scoreLabel.setText("Score: " + model.scores.get(model.getCurrentPlayer()));
 
-            String[] options = {"New game", "Exit"};
+            String[] options = {"New game","New round", "Exit"};
                 Object selectedOption = JOptionPane.showInputDialog(
                         null,
                         "Continue?",
@@ -94,18 +101,27 @@ public class UnoController implements ActionListener {
                         options, // Array of options for the dropdown
                         options[0] // Default selected option
                 );
-            if(((String)selectedOption).equals(options[1])){
+            if(("Exit").equals(options[2])){
                 JOptionPane.showMessageDialog(null, "Thanks for playing! \nExiting...");
                 System.exit(0);
             }
-            else{
+            else if(("New round").equals(selectedOption)){
+                JOptionPane.showMessageDialog(null, "New round!");
+                model.startGame();
+                roundNumber++;
+                commandManager.clear();
+            }
+            else{ // start new game
                 model.startGame();
                 model.setTurnCompleted(false);
-                updateView();
                 roundNumber++;
+                roundNumber = 1;
+                commandManager.clear();
                 JOptionPane.showMessageDialog(null, "New round started!");
 
             }
+            updateView();
+            return;
         }
         handleAITurnIfCurrent();
     }
@@ -197,22 +213,29 @@ public class UnoController implements ActionListener {
                 model.getCurrentPlayer().UNOClicked = true;
             }
         } else if (source == viewFrame.undoButton) {
-            /* TESTING SOMETHING OUT
-            if (model.undo()){
+            // TESTING SOMETHING OUT
+            if (commandManager.isUndoable()){
+                commandManager.undo();
                 updateView();
-
+                model.setTurnCompleted(false); //do not move to the next player
             }
             else {
                 JOptionPane.showMessageDialog(null, "You nothing to undo!");
             }
         }
         else if (source == viewFrame.redoButton) {
-            model.redo();
-        }
-             */
-            model.undo();
+            if (commandManager.isRedoable()){
+                commandManager.redo();
+                updateView();
+                model.setTurnCompleted(false);
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "You nothing to redo!");
+                //model.redo()
+            }
         }
     }
+
 
     /**
      * Updates the view to reflect the current game state
@@ -222,6 +245,8 @@ public class UnoController implements ActionListener {
             viewFrame.updateHand(model.getPlayerHand());
             viewFrame.updateTopCard(model.getTopCard());
             viewFrame.roundLabel.setText("Round number: " + roundNumber);
+            viewFrame.undoButton.setEnabled(commandManager.isUndoable());
+            viewFrame.redoButton.setEnabled(commandManager.isRedoable());
             viewFrame.currentPlayerName.setText(model.getCurrentPlayer().getName());
             if ((!model.lightMode && model.getTopCard().getCardLightType().equals(Card.LightType.FLIP_TO_DARK)) ||
                     (model.lightMode && model.getTopCard().getCardDarkType().equals(Card.DarkType.FLIP_TO_LIGHT))) {
