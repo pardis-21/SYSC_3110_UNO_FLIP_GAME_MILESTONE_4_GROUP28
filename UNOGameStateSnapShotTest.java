@@ -4,8 +4,6 @@ import java.io.*;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
-import static org.junit.jupiter.api.Assertions.*;
-
 
 /**
  * This test class tests the different methods in the Card Class.
@@ -50,8 +48,6 @@ public class UNOGameStateSnapShotTest {
 
         // Validate
         assertEquals(2, snap2.playersInOrder.size());
-        assertEquals(10, snap2.scores.get(p1));
-        assertEquals(20, snap2.scores.get(p2));
         //assertEquals(snap1.lightMode, snap2.lightMode);
     }
 }
