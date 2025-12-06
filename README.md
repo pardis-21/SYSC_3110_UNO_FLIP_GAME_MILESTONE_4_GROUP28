@@ -17,7 +17,31 @@ This is the double-sided version of UNO (Light side → Dark side) with all the 
    javac -d out src/*.java
    java -cp out Game
    ```
+SYSC 3110 Project Overview Milestone 4 UNO: 
 
+For Milestone 4, we added the required features to complete the UNO Flip game: undo/redo, replay functionality, and save/load support using Java Serialization. We also updated the UML diagrams and added new test cases to validate the new features.
+What Was Added
+Undo/Redo: Players can reverse or reapply actions during gameplay.
+Replay: Players can replay an entire finished game from start to end.
+Save/Load: Game state can be serialized, saved, and restored later.
+Updated Design: UML diagrams updated to reflect new state-handling and serialization structure.
+Tests: New test cases covering serialization, undo/redo behavior, and replay sequences.
+Changes Since Milestone 3
+Added state-tracking structures for undo/redo.
+Implemented replay controller and supporting logic.
+Integrated Java Serialization throughout the model.
+Updated UML diagrams and documentation.
+Added new test coverage for all new features.
+Contributions
+Pardis: Implemented redo and replay features, integrated replay logic.
+Anvita: Worked on serialization, save/load, updated UML, and contributed test cases.
+Charis: Worked on serialization, controller integration, UML updates, and test cases.
+Cherie: Worked on serialization, UML updates, and contributed test cases.
+Known Issues
+Replay currently runs at a fixed speed.
+Undo/Redo applies only to logical game actions.
+How to Run
+Run the Game class from the GUI module. The menu includes options for New Game, Save, Load, Undo, Redo, and Replay.
    
 SYSC 3110 Project Overview Milestone 3 UNO: 
 This milestone is continuing on from the previous milestone, but instead, its implementing an AI Player feature and a FLIP Mode. 
