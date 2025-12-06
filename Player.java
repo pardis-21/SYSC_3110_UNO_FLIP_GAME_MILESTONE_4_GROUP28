@@ -108,6 +108,14 @@ public class Player {
         return false;
     }
 
+    public void clearHand(){
+        hand.clear();
+    }
+
+    @Override
+    public String toString(){
+        return getName();
+    }
 
 
 }

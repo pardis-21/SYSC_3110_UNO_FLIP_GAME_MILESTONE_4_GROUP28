@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.text.View;
 import java.awt.*;
 import java.util.*;
 
@@ -24,6 +25,10 @@ public class GameLogicModel {
     private int numPlayers = 0;
     public boolean lightMode = true;
 
+    //for the SAVING SNAP SHOT (working on this)
+    private Deque<UNOGameStateSnapShot> undoStateSnapShot;
+    private Deque<UNOGameStateSnapShot> redoStateSnapShot;
+
 
     /**
      * Constructs a new GameLogic instance and initializes players, draw pile,
@@ -31,22 +36,32 @@ public class GameLogicModel {
      *
      */
     public GameLogicModel() {
+        //saving snap shot
+        this.redoStateSnapShot = new ArrayDeque<>();
+        this.undoStateSnapShot = new ArrayDeque<>();
+
         //instance of that class
         playerOrder = new PlayerOrder();
         discardPile = new ArrayList<>();
 
         // for future use flipPile = new ArrayList<>();
-
-        //populating the cards with a card to make a deck (108 cards)
         drawPile = new ArrayList<>();
-        for (int i = 0; i < 108; i++){
-            drawPile.add(new Card());
-        }
+
+        createDeckofCards();
         //shuffling cards for randomness
         Collections.shuffle(drawPile);
 
         //assuming by UNO rules that all players have same age and starting from CW direction
         direction = true; //clockwise direction
+    }
+
+    public ArrayList<Card> createDeckofCards(){
+        drawPile.clear();
+        //populating the cards with a card to make a deck (108 cards)
+        for (int i = 0; i < 108; i++){
+            drawPile.add(new Card());
+        }
+        return drawPile;
     }
 
 
@@ -65,8 +80,11 @@ public class GameLogicModel {
      */
     //at the beginning of the game, each player is dealt 7 cards
     public void dealCardsBeginning(){
+        //if (drawPile.isEmpty()) return;
+
         for (Player player : playerOrder.getAllPlayersToArrayList()) {
             while (player.getHand().size() < SEVEN) {
+                if (drawPile.isEmpty()) break;
                 player.getHand().add(drawPile.get(0));
                 drawPile.remove(0);
             }
@@ -648,6 +666,8 @@ public class GameLogicModel {
 
     }
 
+
+
     /**
      * handle ai player
      */
@@ -710,11 +730,131 @@ public class GameLogicModel {
     }
 
     /**
+     * Reseting the cards (such as discard and draw piles) for a new round
+     * but also perserving the scores that are currently totalled
+     */
+    public void resetAllCardsForNewRound(){
+
+    }
+
+    /**
+     * Reseting the cards (such as discard and draw piles) for a new Game
+     * but also resetting all the scores to 0
+     */
+    public void resetAllCardsForNewGame(){
+        //reset the scores and also call reset a new round
+    }
+
+
+    /**
      * used to return the order of the players
      * @return the order of the players
      */
     public PlayerOrder getPlayerOrder(){
         return playerOrder;
     }
+
+    //SAVING SNAP SHOTS BUT ALSO ITS IMPLEMENTED IN A SEPERATE CLASS BECAUSE THIS MODEL IS GETTING WAY TOO LONG
+    private UNOGameStateSnapShot createUNOGameStateSnapShot(){
+        return new UNOGameStateSnapShot(playerOrder.getAllPlayersToArrayList(), new ArrayList<Card>(drawPile), new ArrayList<Card>(discardPile), lightMode, playerOrder.getCurrentPlayer(), getDirection());
+    }
+    //SAVING THE SNAPSHOT
+    public void saveSnateSnapShot(){
+        undoStateSnapShot.push(createUNOGameStateSnapShot());
+        redoStateSnapShot.clear();
+    }
+
+    public void restoreStateSnapShot(UNOGameStateSnapShot restoredSnapShot){
+        //setPlayerOrder(restoredSnapShot);
+        //drawPile = restoredSnapShot.drawpile
+        //discardPile = restoredSnapShot
+        lightMode = restoredSnapShot.lightMode;
+        //direction = restoredSnapShot.directino
+        //playerOrder.setCurrentPlayer(restoredSnapShot.player)
+    }
+
+
+    //RESETTING THE GAME AND STUFF
+
+    public void resetRound(){
+        drawPile.clear();
+        discardPile.clear();
+        for (Player player : playerOrder.getAllPlayersToArrayList()) {
+            player.clearHand();
+        }
+        dealCardsBeginning();
+        initializePlayers();
+        startGame();
+        lightMode = true;
+        //forceLightMode(true);
+    }
+
+    public void resetGame(){
+        for (Player player : playerOrder.getAllPlayersToArrayList()) {
+            player.clearHand();
+            //resetting the scores for all the players in the game
+            initScores();
+        }
+        resetAllCardsForNewRound();
+        resetAllCardsForNewGame();
+        resetRound();
+    }
+
+    public ArrayList<Card> getDiscardPile() {
+        return discardPile;
+
+    }
+
+    public void setTopCard(Card prevoiusTopCard) {
+        discardPile.add(prevoiusTopCard);
+    }
+
+    public void setCurrentPlayer(Player previousCurrentPlayer) {
+        playerOrder.setCurrentPlayer(previousCurrentPlayer);
+    }
+
+    public void startNewRound() {
+        //starting the new round and clearing eveyrthing
+        discardPile.clear();
+        drawPile.clear();
+
+        //now resetting all players in the groups hand
+        for (Player player : playerOrder.getAllPlayersToArrayList()) {
+            player.clearHand();
+        }
+        createDeckofCards();
+        Collections.shuffle(drawPile);
+
+        dealCardsBeginning();
+
+        forceLightMode(true);
+        setDirection(true);
+        setTurnCompleted(false);
+        setFirstPlayer();
+
+        //JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 2 cards and been skipped!");
+        //draw pile rebuilt
+        drawPile.addAll(discardPile);
+
+        dealCardsBeginning();
+    }
+
+    public Player getFirstPlayerName(){
+        return playerOrder.getCurrentPlayer();
+
+    }
+
+    public void setFirstPlayer(){
+        playerOrder.setToFirstPlayer();
+    }
+
+    public void startNewGame(){
+        scores.clear();
+        initializePlayers();
+        initScores();
+        startGame();
+        //forceLightMode(true);
+    }
+
 
 }

@@ -18,12 +18,19 @@ import java.util.List;
 
 public class UnoViewFrame extends JFrame {
 
-
     private JPanel cardPanel; // panel for current player's cards
     public JPanel scorePanel; // panel for the player's score
+    public JPanel currentPlayerPanel;
+    public JPanel roundPanel;
     public JLabel scoreLabel;
+    public JLabel currentPlayerLabel;
+    //making a top panel with both the score and the round and the current player name cuz i want it to be cleaner
+    public JPanel topPanel;
+    //makeing a redo/undo panel for clearness and for these buttons to not overlap antyhign
+    public JPanel undoredoPanel;
+
     public JButton nextPlayerButton;
-    private ArrayList<Player> playerNames;
+    //private ArrayList<Player> playerNames;
     private final GameLogicModel model;
     private UnoController controller;
     public JTextArea currentPlayerName;
@@ -32,9 +39,20 @@ public class UnoViewFrame extends JFrame {
     //private JButton playerCard;
     private static final int SEVEN = 7;
     private JPanel decksPanel; // panel for the discard pile, new card pile, and "UNO!" button
+
+
+    //EVERY BUTTON NEEDS TO BE PRIVATE, CAN NOT HAVE PUBLIC FIELDS
+    //NEED TO CHANGE!!!!!!!!!!!!!!!!!!!!!!!!!!!!111
     public JButton discardPile;
     public JButton UNOButton;
     public JButton drawPile;
+    //undo button
+    public JButton undoButton;
+    //redo button
+    public JButton redoButton;
+    //label for the round at the top of the screen
+    public JLabel roundLabel;
+    public int roundNumber;
 
 
     /**
@@ -46,21 +64,22 @@ public class UnoViewFrame extends JFrame {
         this.model = model;
         //controller = new UnoController(model);
         this.playerCardButtons = new ArrayList<>();
-        playerNames = new ArrayList<>();
+        //playerNames = new ArrayList<>();
 
-        currentPlayerName = new JTextArea("");
-        currentPlayerName.setEditable(false);
 
         //FRAME PROPERTIES
         getContentPane().setBackground(new Color(30, 120,60));
-        setTitle("UNO FLIP - MILESTONE 2");
+        setTitle("UNO FLIP - MILESTONE 4");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         cardPanel = new JPanel(); // display the players cards
         decksPanel = new JPanel();
         scorePanel = new JPanel(); // display score
+        currentPlayerPanel = new JPanel(); //display the current players name
+        topPanel = new JPanel(); //top panel
         discardPile = new JButton(); //shows top card on discard pile
+        roundPanel = new JPanel(); //shows the round panel and should be above the score
         drawPile = new JButton("DRAW"); //pile to take a card
         UNOButton = new JButton("UNO"); // when player has one card, button shows
         nextPlayerButton = new JButton("NEXT PLAYER");
@@ -72,11 +91,74 @@ public class UnoViewFrame extends JFrame {
         drawPile.setBackground(Color.GRAY);
         drawPile.setForeground(Color.BLACK);
 
+        //ADDING A ROUND LABEL AT THE TOP TO INDICATE WHICH ROUND WERE AT
+        roundLabel = new JLabel("Round: " + roundNumber);
+        roundLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        roundLabel.setForeground(Color.BLACK);
+        roundLabel.setBackground(Color.WHITE);
+        roundNumber = 1;
+
+        //SETTING UP THE ROUND PANEL
+        roundPanel.setLayout(new FlowLayout());
+        roundPanel.add(roundLabel);
+
         //SETTING UP SCORE PANEL
-        scoreLabel = new JLabel("Score: 0");
+
+        scoreLabel = new JLabel("Score: 0");  //need to add the score here
+        scoreLabel.setFont(new Font("Arial", Font.BOLD, 16));
         scoreLabel.setForeground(Color.BLACK);
-        scorePanel.setBackground(new Color(30, 120,60));
+        scorePanel.setBackground(new Color(153, 255,255));
         scorePanel.add(scoreLabel);
+
+        //SETTING UP THE CURRENT PLAYER NAME PANEL AND CURRENT PLAYER NAME LABEL
+        currentPlayerLabel = new JLabel("Current Player: " + currentPlayerName);
+        currentPlayerLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        currentPlayerLabel.setForeground(Color.BLACK);
+        currentPlayerPanel.setBackground(Color.WHITE);
+        currentPlayerPanel.add(currentPlayerLabel);
+
+
+        //SHOWCASING THE UNDO AND THE REDO BUTTONS
+        undoButton = new JButton("UNDO");
+        redoButton = new JButton("REDO");
+        undoButton.setPreferredSize(new Dimension(100, 100));
+        redoButton.setPreferredSize(new Dimension(100, 100));
+        undoButton.setFont(new Font("Arial", Font.BOLD, 18));
+        redoButton.setFont(new Font("Arial", Font.BOLD, 18));
+        undoButton.setVisible(true);
+        redoButton.setVisible(true);
+        undoButton.setBackground(Color.WHITE);
+        redoButton.setBackground(Color.WHITE);
+
+        //ADDING UNDO AND REDO BUTTONS TO THE FRAME
+        undoredoPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 20, 10));
+        //undoredoPanel.setOpaque(false);
+
+        undoredoPanel.add(undoButton);
+        undoredoPanel.add(redoButton);
+
+        //SETTING THE TOP PANEL WITH BOTH SCOREPANEL AND ROUNDPANEL AND PLAYERNAMEPANEL
+        topPanel.setBackground(new Color(30, 120,60));
+        topPanel.setPreferredSize(new Dimension(200, 200));
+        topPanel.setLayout(new BorderLayout());
+        topPanel.add(roundPanel, BorderLayout.NORTH);
+        topPanel.add(scorePanel, BorderLayout.CENTER);
+        topPanel.add(currentPlayerPanel, BorderLayout.SOUTH);
+
+        //topPanel.add(currentPlayerName, BorderLayout.SOUTH);
+        topPanel.add(undoredoPanel, BorderLayout.EAST);
+
+
+        //topPanel.add(undoredoPanel, BorderLayout.EAST);
+
+        //this.add(currentPlayerName, BorderLayout.EAST);
+
+        //this.add(topPanel, BorderLayout.NORTH);
+        //this.add(undoredoPanel, BorderLayout.EAST);
+
+
+
+
 
         // TESTING RANDOM CARD FOR DISCARD PILE
         Card topCard = new Card();
@@ -108,12 +190,13 @@ public class UnoViewFrame extends JFrame {
         decksPanel.add(drawPile);
         decksPanel.add(discardPile);
         decksPanel.add(UNOButton);
+
         // ADDING THE LAYOUT TO THE JFRAME
         this.add(decksPanel, BorderLayout.CENTER);
         this.add(cardPanel, BorderLayout.SOUTH);
-        this.add(scorePanel, BorderLayout.NORTH);
-        this.add(currentPlayerName, BorderLayout.EAST);
         this.add(nextPlayerButton, BorderLayout.WEST);
+        this.add(topPanel, BorderLayout.NORTH);
+
 
 
         // WHEN LAYER PRESSESS NEWCARD BUTTON, ONE RANDOM CARD IS ADDED TO THEIR HAND

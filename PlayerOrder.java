@@ -152,11 +152,36 @@ public class PlayerOrder {
            return currentPlayer.pName;
        }
     }
+
+    public boolean setCurrentPlayer(Player p){
+        if (currentPlayer == null){
+            return false;
+        }
+        playerNode tempPlayer = currentPlayer;
+        for (int i = 0; i < numPlayers; i++){
+            if (tempPlayer.pName.equals(p)){
+                currentPlayer = tempPlayer;
+                return true;
+            }
+            tempPlayer = tempPlayer.next;
+        }
+        return false;
+
+    }
+
+
+    public void setToFirstPlayer(){
+        currentPlayer = firstPlayer;
+    }
+
     /**
      * Returns a string representation of the order of the PlayerOrder class
      */
     @Override
     public String toString() {
+        if (isEmpty()){
+            return " No Players";
+        }
         return super.toString();
     }
 }
