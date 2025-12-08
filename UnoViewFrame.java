@@ -14,10 +14,6 @@ import java.util.List;
  * to the next player.
  * This class is part of the MVC pattern and interacts with GameLogicModel and UnoController to
  * update and display teh current game state.
- * @Author Charis Nobossi 101297742
- * @Author Anvita Ala 101301514
- * @Author Pardis Ehsani 101300400
- * @Author Pulcherie Mbaye 101302394
  */
 
 public class UnoViewFrame extends JFrame implements Serializable {

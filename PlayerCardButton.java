@@ -3,10 +3,7 @@ import javax.swing.*;
 /**
  * This class represents a clickable button that corresponds to a specific card
  * each button visually represents a card in the players hand and allows player interaction
- * @Author Charis Nobossi 101297742
- * @Author Anvita Ala 101301514
- * @Author Pardis Ehsani 101300400
- * @Author Pulcherie Mbaye 101302394
+
  */
 
 public class PlayerCardButton extends JButton {

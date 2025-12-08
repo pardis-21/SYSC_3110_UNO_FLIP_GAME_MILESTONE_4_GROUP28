@@ -6,10 +6,7 @@ import static org.junit.Assert.*;
 /**
  * This test class tests the different methods in the Card Class.
  *
- * @Author Anvita Ala 101301514
- * @Author Charis Nobossi 101297742
- * @Author Pulcherie Mbaye 101302394
- * @Author Pardis Ehsani 101300400
+
  */
 public class CardTest {
 

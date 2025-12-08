@@ -8,10 +8,7 @@ import java.util.*;
  * The GameLogic class manages the main gameplay flow for an UNO-like card game.
  * It controls player turns, card drawing, discarding, special card effects,
  * and scoring between multiple players.
- * @Author Charis Nobossi 101297742
- * @Author Pardis Ehsani 101300400
- * @Author Anvita Ala 101301514
- * @Author Pulcherie Mbaye 101302394
+
  */
 public class GameLogicModel implements Serializable {
     public PlayerOrder playerOrder;
@@ -536,27 +533,34 @@ public class GameLogicModel implements Serializable {
 
         if (!card.playCardOnAnother(top)) return false;
 
-        // Remember who is playing this card
         Player originalPlayer = getCurrentPlayer();
 
+        // Remove the played card
         originalPlayer.getHand().remove(card);
-        discardPile.add(0, card);
 
-        applyCardEffect(card);
-
+        // WIN CHECK MUST BE DONE HERE → before ANY effect runs
         if (originalPlayer.getHand().isEmpty()) {
             awardRoundPointsTo(originalPlayer);
+            // No card effects should apply if player wins
+            return true;
         }
 
+        // Only add to discard if not final card
+        discardPile.add(0, card);
+
+        // Now apply effects safely
+        applyCardEffect(card);
+
+        // Turn completion logic
         if (getCurrentPlayer() == originalPlayer) {
             setTurnCompleted(true);
         } else {
-            // The new current player is just starting their turn.
             setTurnCompleted(false);
         }
 
         return true;
     }
+
 
     public void applyCardEffect(Card card) {
 

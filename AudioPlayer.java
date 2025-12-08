@@ -7,7 +7,7 @@ import javax.swing.*;
 /**
  * This class is to manage all the sounds that the UNO Game would have
  *
- *  @Author Pardis Ehsani 101300400
+
  */
 
 public class AudioPlayer {

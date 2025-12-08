@@ -4,10 +4,7 @@ import java.util.ArrayList;
  * This class makes a AIPlayer that extends the Player class.
  * It contains the implementation of the AIPlayer and its logic on its decision for choosing cards.
  *
- * @Author Anvita Ala 101301514
- * @Author Charis Nobossi 101297742
- * @Author Pulcherie Mbaye 101302394
- * @Author Pardis Ehsani 101300400
+
  */
 public class AIPlayer extends Player {
     public AIPlayer(String name){

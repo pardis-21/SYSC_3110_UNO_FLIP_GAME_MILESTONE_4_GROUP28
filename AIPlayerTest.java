@@ -9,11 +9,7 @@ import static org.junit.Assert.assertNull;
 
 /**
  * This class is testing the methods of the AIPlayer test.
- *
- * @Author Anvita Ala 101301514
- * @Author Charis Nobossi 101297742
- * @Author Pulcherie Mbaye 101302394
- * @Author Pardis Ehsani 101300400
+
  */
 public class AIPlayerTest {
 

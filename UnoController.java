@@ -9,10 +9,6 @@ import java.util.List;
  * It handles user interactions such as playing cards, drawing cards,
  * ending turns, and calling 'UNO'. The controller ensures that the view stays updated
  * according to the state of the model.
- * @Author Charis Nobossi 101297742
- * @Author Anvita Ala 101301514
- * @Author Pardis Ehsani 101300400
- * @Author Pulcherie Mbaye 101302394
  *
  */
 

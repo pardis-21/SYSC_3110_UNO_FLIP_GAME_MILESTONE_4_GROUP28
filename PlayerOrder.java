@@ -6,10 +6,7 @@ import java.util.ArrayList;
  * player and the next player in the order by either moving clockwise or counterclockwise, depending on the game.
  * This class also adds players in order and retrieves them in order.
  *
- * @Author Pardis Ehsani 101300400
- * @Author Charis Nobossi 101297742
- * @Author Anvita Ala 101301514
- * @Author Pulcherie Mbaye 101302394
+
  */
 
 public class PlayerOrder {

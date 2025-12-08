@@ -5,10 +5,7 @@ import java.util.ArrayList;
  * The Player class represents a player in the UNO game.
  * Each player has a name and a hand of Card objects.
  * This class provides methods to view, play, and manage cards in the hand.
- * @Author Pulcherie Mbaye 101302394
- * @Author Charis Nobossi 101297742
- * @Author Anvita Ala 101301514
- * @Author Pardis Ehsani 101300400
+
  */
 
 public class Player implements Serializable {
