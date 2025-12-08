@@ -50,6 +50,8 @@ DRAW BUTTON IMAGE
 UNO BUTTON IMAGE
 TRANSPARENT / SEMI-TRANSPARENT BUTTON UI
 
+```Anvita Ala``` and ```Pulcherie Mbaye ```: Implemented the AnimatedGif class. Added an animated gif for when the victor is decided (confetti!)
+
 Images can be found in the root of the project.
 Sounds can be found in the root of the project.
 
