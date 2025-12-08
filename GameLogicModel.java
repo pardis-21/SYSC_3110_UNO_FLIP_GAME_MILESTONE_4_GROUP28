@@ -26,6 +26,8 @@ public class GameLogicModel implements Serializable {
     private int numPlayers = 0;
     public boolean lightMode = true;
     private AudioPlayer audioPlayer;
+    public AnimatedGif gif;
+
 
     //for the SAVING SNAP SHOT (working on this)
     private Deque<UNOGameStateSnapShot> undoStateSnapShot;
@@ -926,7 +928,5 @@ public class GameLogicModel implements Serializable {
     public void endUNOBackgroundMusic(String fielName){
         audioPlayer.stopBackGroundMusic(fielName);
     }
-
-
 
 }

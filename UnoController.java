@@ -66,33 +66,7 @@ public class UnoController implements ActionListener, Serializable {
      * @param heldCard the card clicked by the player
      */
     public void onCardClicked(Card heldCard) {
-
         Card previousTopCard = model.getTopCard();
-        if (model.getCurrentPlayer() instanceof AIPlayer) {
-            JOptionPane.showMessageDialog(null, "It's an AI player's turn. Click Next Player to continue.");
-            model.setTurnCompleted(false);
-            return;
-        }
-
-        if (model.isTurnCompleted()) {
-            JOptionPane.showMessageDialog(null, "Your turn is complete! Click on the next player button.");
-            return;
-        }
-
-        int previousPlayerHandSize = model.getCurrentPlayer().getHand().size();
-
-        boolean success = model.tryPlayCard(heldCard);
-        if (!success) {
-
-            model.playCardSound("buzzerWrong_sound.wav");
-            viewFrame.showMessage("You cannot play " + heldCard + " on " + model.getTopCard());
-            return;
-        }
-
-
-        commandManager.push(new PlayerCardCommand(model, model.getCurrentPlayer(), heldCard, previousTopCard));
-        updateView();
-        model.setTurnCompleted(true);
 
         if(model.getCurrentPlayer().getHand().isEmpty()){
             int points = model.awardRoundPointsTo(model.getCurrentPlayer());
@@ -101,6 +75,9 @@ public class UnoController implements ActionListener, Serializable {
 
             JOptionPane.showMessageDialog(null, "Player: " + model.getCurrentPlayer().getName() + " wins the round with: " + points + " points!!" +
                     "\n + Total Points: " + model.scores.get(model.getCurrentPlayer()) + "\n Round Over!");
+
+            model.gif = new AnimatedGif("VictoryGif.gif");
+            viewFrame.add(model.gif);
 
             //viewFrame.scoreLabel.setText("Score: " + model.scores.get(model.getCurrentPlayer()));
 
@@ -142,6 +119,33 @@ public class UnoController implements ActionListener, Serializable {
 
             return;
         }
+
+        if (model.getCurrentPlayer() instanceof AIPlayer) {
+            JOptionPane.showMessageDialog(null, "It's an AI player's turn. Click Next Player to continue.");
+            model.setTurnCompleted(false);
+            return;
+        }
+
+        if (model.isTurnCompleted()) {
+            JOptionPane.showMessageDialog(null, "Your turn is complete! Click on the next player button.");
+            return;
+        }
+
+        int previousPlayerHandSize = model.getCurrentPlayer().getHand().size();
+
+        boolean success = model.tryPlayCard(heldCard);
+        if (!success) {
+
+            model.playCardSound("buzzerWrong_sound.wav");
+            viewFrame.showMessage("You cannot play " + heldCard + " on " + model.getTopCard());
+            return;
+        }
+
+
+        commandManager.push(new PlayerCardCommand(model, model.getCurrentPlayer(), heldCard, previousTopCard));
+        updateView();
+        model.setTurnCompleted(true);
+
         handleAITurnIfCurrent();
     }
 
