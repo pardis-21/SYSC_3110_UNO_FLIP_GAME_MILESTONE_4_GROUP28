@@ -3,9 +3,9 @@
 ----------------------------------------------------------------------------------------------------------------------------------------
 
 # UNO Flip! - Java GUI Version
-A simple but fully playable UNO Flip! game made in Java with Swing (yes, it's the one we've been working on together).
+A simple but fully playable UNO Flip! game made in Java with Swing 
 
-This is the double-sided version of UNO (Light side → Dark side) with all the crazy Flip cards, just like the real card game.
+This is the double-sided version of UNO (Light side → Dark side) with all the crazy Flip cards, just like the real card game!!!!
 
 ## How to Run the Game
 
@@ -17,6 +17,20 @@ This is the double-sided version of UNO (Light side → Dark side) with all the 
    javac -d out src/*.java
    java -cp out Game
    ```
+
+## Milestone 5 - BONUS FEATURES: SOUND EFFECTS + BACKGROUND MUSIC
+
+Sound effects were added for playing the game (different effects for different scenarios: wrong card/uno card/flip/wrong move etc and Coconut Mall as background music that loops the entire game :) )
+
+How it works:
+- When a Card is clicked, a sound plays
+- Background music starts when the view is loaded (GUI is loaded) to loop forever
+
+Contributions:
+Pardis Ehsani: Added AudioPlayer Class, implemented methods in the Game Logic Class and have the adio played in the Controller class
+
+Sounds can be found in the root of the project
+
 SYSC 3110 Project Overview Milestone 4 UNO: 
 
 For Milestone 4, we added the required features to complete the UNO Flip game: undo/redo, replay functionality, and save/load support using Java Serialization. We also updated the UML diagrams and added new test cases to validate the new features.
